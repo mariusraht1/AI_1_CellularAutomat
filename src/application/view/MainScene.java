@@ -1,7 +1,5 @@
 package application.view;
 
-import java.util.Random;
-
 import application.Cell;
 import application.CellList;
 import application.CellType;
@@ -33,6 +31,8 @@ public class MainScene {
 			}
 		}
 		
+		CellList.getInstance().determineNeighbours();
+		
 		Cell cell = CellList.getInstance().getCell(2, 7);
 		cell.changeTo(CellType.PREY);
 		cell = CellList.getInstance().getCell(2, 6);
@@ -56,10 +56,21 @@ public class MainScene {
 				Cell cell = CellList.getInstance().getCell(i, j);
 				
 				if (cell.getType().equals(CellType.PREDATOR)) {
-					for (int n = 0; n < cell.getNeighbours().length; n++) {
-						
+					// 1. Beute vorhanden -> essen (W=1)
+					// 2. Artgenosse vorhanden -> paaren (W=1)
+					// 3. Weitergehen
+					// 4. Sterben
+					
+					Cell prey = cell.getNeighbours().getCell(CellType.PREY);
+					if (prey != null) {
+						prey = cell;
+						cell.setType(CellType.DUMMY);
 					}
+					
 				} else if (cell.getType().equals(CellType.PREY)) {
+					// 1. Weitergehen
+					// 2. Artgenosse vorhanden -> paaren (W=1)
+					
 					
 				}
 			}

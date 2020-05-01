@@ -1,10 +1,11 @@
 package application.environment;
 
 import application.Cell;
+import application.NeighbourList;
 
 public interface EnvironmentInterface {
 	public int getNumOfNeighbours();
 	public int getWidth();
 	public int getHeight();
-	public Cell[] getNeighbours(Cell cell);
+	public NeighbourList getNeighbours(Cell cell);
 }

@@ -2,6 +2,7 @@ package application.environment;
 
 import application.Cell;
 import application.CellList;
+import application.NeighbourList;
 
 public class Environment_VonNeumann extends Environment {
 	private static final int NumOfNeighbours = 4;
@@ -27,9 +28,9 @@ public class Environment_VonNeumann extends Environment {
 	}
 	
 	@Override
-	public Cell[] getNeighbours(Cell cell)
+	public NeighbourList getNeighbours(Cell cell)
 	{
-		Cell[] neighbours = new Cell[NumOfNeighbours];
+		NeighbourList neighbours = new NeighbourList();
 		Cell[][] cells = CellList.getInstance().getCells();
 		
 		// 				x   | y++			
@@ -58,7 +59,7 @@ public class Environment_VonNeumann extends Environment {
 				if (x < 0 || y < 0) {
 					continue;
 				} else {
-					neighbours[i] = cells[x][y];
+					neighbours.set(i,cells[x][y]);
 				}
 			} catch (IndexOutOfBoundsException e) {}
 		}

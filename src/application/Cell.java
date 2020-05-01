@@ -51,20 +51,21 @@ public class Cell {
 		this.y = y;
 	}
 	
-	private Cell[] neighbourList = new Cell[Main.getEnvironment().getNumOfNeighbours()];
+	private NeighbourList neighbourList = new NeighbourList();
 	
-	public Cell[] getNeighbourList()
+	public NeighbourList getNeighbourList()
 	{
 		return neighbourList;
 	}
 	
-	public void setNeighbourList(Cell[] neighbourList)
+	public void setNeighbourList(NeighbourList neighbourList)
 	{
 		this.neighbourList = neighbourList;
 	}
 	
 	public Cell(CellType type, Shape shape, int x, int y)
 	{
+		this.type = type;
 		this.shape = shape;
 		this.x = x;
 		this.y = y;
@@ -77,9 +78,9 @@ public class Cell {
 		shape.setFill(cellType.getColor());
 	}
 	
-	public Cell[] getNeighbours()
+	public NeighbourList getNeighbours()
 	{
-		if (neighbourList.length == 0) {
+		if (neighbourList.getLength() == 0) {
 			neighbourList = Main.getEnvironment().getNeighbours(this);
 		}
 		

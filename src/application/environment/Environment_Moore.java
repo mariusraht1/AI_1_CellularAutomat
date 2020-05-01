@@ -2,13 +2,15 @@ package application.environment;
 
 import application.Cell;
 import application.CellList;
+import application.NeighbourList;
 
 public class Environment_Moore extends Environment {
 	private static final int NumOfNeighbours = 8;
 	
 	private static Environment_Moore instance;
 	
-	public static Environment_Moore getInstance() {
+	public static Environment_Moore getInstance()
+	{
 		if (instance == null) {
 			instance = new Environment_Moore();
 		}
@@ -18,8 +20,9 @@ public class Environment_Moore extends Environment {
 	
 	private Environment_Moore() {};
 	
-	public Cell[] getNeighbours(Cell cell) {
-		Cell[] neighbours = new Cell[NumOfNeighbours];
+	public NeighbourList getNeighbours(Cell cell)
+	{
+		NeighbourList neighbours = new NeighbourList();
 		Cell[][] cells = CellList.getInstance().getCells();
 		
 		// x-- | y--	x-- | y		x-- | y++
@@ -30,7 +33,8 @@ public class Environment_Moore extends Environment {
 				int x = cell.getX();
 				int y = cell.getY();
 				
-				switch (i) {
+				switch (i)
+				{
 				case 0:
 					x -= 1;
 					y -= 1;
@@ -64,7 +68,7 @@ public class Environment_Moore extends Environment {
 				if (x < 0 || y < 0) {
 					continue;
 				} else {
-					neighbours[i] = cells[x][y];
+					neighbours.set(i, cells[x][y]);
 				}
 			} catch (IndexOutOfBoundsException e) {}
 		}
@@ -73,7 +77,8 @@ public class Environment_Moore extends Environment {
 	}
 	
 	@Override
-	public int getNumOfNeighbours() {
+	public int getNumOfNeighbours()
+	{
 		return NumOfNeighbours;
 	}
 }

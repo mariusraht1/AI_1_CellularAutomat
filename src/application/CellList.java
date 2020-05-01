@@ -24,26 +24,19 @@ public class CellList {
 		return instance;
 	}
 	
-	protected CellList()
-	{}
+	protected CellList() {}
 	
 	public Cell getCell(int x, int y)
 	{
 		return cells[x][y];
 	}
-	
-	public Cell getBy(CellType cellType)
+
+	public void determineNeighbours()
 	{
-		Cell cell = null;
-		
-		for (int i = 0; i < cells.length; i++) {
+		for(int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				if (cells[i][j].getType().equals(cellType)) {
-					cell = cells[i][j];
-				}
+				cells[i][j].getNeighbours();
 			}
 		}
-		
-		return cell;
 	}
 }
