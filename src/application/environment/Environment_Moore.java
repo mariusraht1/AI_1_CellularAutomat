@@ -5,8 +5,6 @@ import application.CellList;
 
 public class Environment_Moore extends Environment {
 	private static final int NumOfNeighbours = 8;
-	private static final int Width = 10;
-	private static final int Height = 10;
 	
 	private static Environment_Moore instance;
 	
@@ -77,15 +75,5 @@ public class Environment_Moore extends Environment {
 	@Override
 	public int getNumOfNeighbours() {
 		return NumOfNeighbours;
-	}
-	
-	@Override
-	public int getWidth() {
-		return Width;
-	}
-	
-	@Override
-	public int getHeight() {
-		return Height;
 	}
 }

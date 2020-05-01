@@ -21,9 +21,16 @@ public class CellList {
 		return instance;
 	}
 	
-	private CellList() {}
+	protected CellList() {}
 	
 	public Cell getCell(int x, int y) {
 		return cells[x][y];
+	}
+	
+	public Cell getBy(CellType cellType) {
+		
+		
+		
+		return ;
 	}
 }
