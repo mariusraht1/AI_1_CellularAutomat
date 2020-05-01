@@ -63,6 +63,22 @@ public class Cell {
 		this.neighbourList = neighbourList;
 	}
 	
+	private int age;
+	
+	public int getAge()
+	{
+		return age;
+	}
+
+	public void setAge(int age)
+	{
+		this.age = age;
+	}
+	
+	public void growOlder() {
+		this.age++;
+	}
+	
 	public Cell(CellType type, Shape shape, int x, int y)
 	{
 		this.type = type;
@@ -86,5 +102,4 @@ public class Cell {
 		
 		return neighbourList;
 	}
-	
 }

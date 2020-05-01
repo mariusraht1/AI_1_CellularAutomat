@@ -50,7 +50,7 @@ public class MainScene {
 	
 	@FXML
 	private void onAction_btnPlus_1()
-	{
+	{		
 		for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
 			for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
 				Cell cell = CellList.getInstance().getCell(i, j);
@@ -58,8 +58,8 @@ public class MainScene {
 				if (cell.getType().equals(CellType.PREDATOR)) {
 					// 1. Beute vorhanden -> essen (W=1)
 					// 2. Artgenosse vorhanden -> paaren (W=1)
-					// 3. Weitergehen
-					// 4. Sterben
+					// 3. Weitergehen (zufälliges freies Feld)
+					// 4. Sterben (W=1)
 					
 					Cell prey = cell.getNeighbours().getCell(CellType.PREY);
 					if (prey != null) {
@@ -68,8 +68,9 @@ public class MainScene {
 					}
 					
 				} else if (cell.getType().equals(CellType.PREY)) {
-					// 1. Weitergehen
-					// 2. Artgenosse vorhanden -> paaren (W=1)
+					// 1. Artgenosse vorhanden -> paaren (W=1)
+					// 2. Weitergehen (zufälliges freies Feld)
+					// 3. Sterben (W=1)
 					
 					
 				}
