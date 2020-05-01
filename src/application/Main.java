@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 
+import application.environment.Environment;
+import application.environment.Environment_Moore;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,7 +32,7 @@ public class Main extends Application {
 		primaryStage.centerOnScreen();
 		
 		try {
-			Scene scene = new Scene(FXMLLoader.load(Main.class.getResource("MainScene.fxml")));
+			Scene scene = new Scene(FXMLLoader.load(Main.class.getResource("/application/view/MainScene.fxml")));
 			
 			primaryStage.setScene(scene);
 			primaryStage.show();
