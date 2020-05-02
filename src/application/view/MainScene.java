@@ -1,6 +1,7 @@
 package application.view;
 
 import application.Cell;
+import application.CellAction;
 import application.CellList;
 import application.CellType;
 import application.Main;
@@ -34,12 +35,12 @@ public class MainScene {
 		CellList.getInstance().determineNeighbours();
 		
 		Cell cell = CellList.getInstance().getCell(2, 7);
-		cell.changeTo(CellType.PREY);
+		cell.setType(CellType.PREY);
 		cell = CellList.getInstance().getCell(2, 6);
-		cell.changeTo(CellType.PREY);
+		cell.setType(CellType.PREY);
 		
 		cell = CellList.getInstance().getCell(7, 1);
-		cell.changeTo(CellType.PREDATOR);
+		cell.setType(CellType.PREDATOR);
 	}
 	
 	@FXML
@@ -50,32 +51,8 @@ public class MainScene {
 	
 	@FXML
 	private void onAction_btnPlus_1()
-	{		
-		for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
-			for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
-				Cell cell = CellList.getInstance().getCell(i, j);
-				
-				if (cell.getType().equals(CellType.PREDATOR)) {
-					// 1. Beute vorhanden -> essen (W=1)
-					// 2. Artgenosse vorhanden -> paaren (W=1)
-					// 3. Weitergehen (zufälliges freies Feld)
-					// 4. Sterben (W=1)
-					
-					Cell prey = cell.getNeighbours().getCell(CellType.PREY);
-					if (prey != null) {
-						prey = cell;
-						cell.setType(CellType.DUMMY);
-					}
-					
-				} else if (cell.getType().equals(CellType.PREY)) {
-					// 1. Artgenosse vorhanden -> paaren (W=1)
-					// 2. Weitergehen (zufälliges freies Feld)
-					// 3. Sterben (W=1)
-					
-					
-				}
-			}
-		}
+	{
+		CellAction.getInstance().step();
 	}
 	
 	@FXML

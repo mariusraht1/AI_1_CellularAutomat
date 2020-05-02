@@ -22,6 +22,7 @@ public class Environment_Moore extends Environment {
 	
 	public NeighbourList getNeighbours(Cell cell)
 	{
+		int n = 0;
 		NeighbourList neighbours = new NeighbourList();
 		Cell[][] cells = CellList.getInstance().getCells();
 		
@@ -68,7 +69,8 @@ public class Environment_Moore extends Environment {
 				if (x < 0 || y < 0) {
 					continue;
 				} else {
-					neighbours.set(i, cells[x][y]);
+					neighbours.set(n, cells[x][y]);
+					n++;
 				}
 			} catch (IndexOutOfBoundsException e) {}
 		}

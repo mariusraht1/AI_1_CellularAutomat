@@ -27,16 +27,18 @@ public class NeighbourList {
 		content[i] = cell;
 	}
 	
-	public Cell getCell(CellType cellType)
+	public Cell[] getCells(CellType cellType)
 	{
-		Cell cell = null;
+		int x = 0;
+		Cell[] cells = new Cell[Main.getEnvironment().getNumOfNeighbours()];
 		
 		for (int i = 0; i < content.length; i++) {
 			if (content[i].getType().equals(cellType)) {
-				cell = content[i];
+				cells[x] = content[i];
+				x++;
 			}
 		}
 		
-		return cell;
+		return cells;
 	}
 }

@@ -1,5 +1,7 @@
 package application;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import javafx.scene.shape.Shape;
 
 public class Cell {
@@ -13,6 +15,7 @@ public class Cell {
 	public void setType(CellType type)
 	{
 		this.type = type;
+		shape.setFill(type.getColor());
 	}
 	
 	private Shape shape;
@@ -51,7 +54,7 @@ public class Cell {
 		this.y = y;
 	}
 	
-	private NeighbourList neighbourList = new NeighbourList();
+	private NeighbourList neighbourList;
 	
 	public NeighbourList getNeighbourList()
 	{
@@ -69,18 +72,18 @@ public class Cell {
 	{
 		return age;
 	}
-
+	
 	public void setAge(int age)
 	{
 		this.age = age;
 	}
 	
-	public void growOlder() {
+	public void growOlder()
+	{
 		this.age++;
 	}
 	
-	public Cell(CellType type, Shape shape, int x, int y)
-	{
+	public Cell(CellType type, Shape shape, int x, int y) {
 		this.type = type;
 		this.shape = shape;
 		this.x = x;
@@ -89,17 +92,62 @@ public class Cell {
 	
 	public Cell(Cell cell) {}
 	
-	public void changeTo(CellType cellType)
-	{
-		shape.setFill(cellType.getColor());
-	}
-	
 	public NeighbourList getNeighbours()
 	{
-		if (neighbourList.getLength() == 0) {
+		if (neighbourList == null) {
 			neighbourList = Main.getEnvironment().getNeighbours(this);
 		}
 		
 		return neighbourList;
+	}
+	
+	// TODO neighbourList enthält null-Werte und ist daher nie leer
+	
+	public boolean goTo(CellType cellType)
+	{
+		Cell[] cells = neighbourList.getCells(cellType);
+		
+		if (!Utilities.getInstance().isEmpty(cells)) {
+			int x = ThreadLocalRandom.current().nextInt(cells.length);
+			cells[x].setType(cellType);
+			setType(CellType.DUMMY);
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean reproduce()
+	{
+		Cell[] cells = neighbourList.getCells(CellType.DUMMY);
+		
+		if (!Utilities.getInstance().isEmpty(cells)) {
+			int x = ThreadLocalRandom.current().nextInt(2) - 1; // W: 50%
+			
+			switch (x)
+			{
+			case 1:
+				x = ThreadLocalRandom.current().nextInt(cells.length);
+				cells[x].setType(type);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean die()
+	{
+		int x = ThreadLocalRandom.current().nextInt(2) - 1; // W: 50%
+		
+		switch (x)
+		{
+		case 1:
+			setType(CellType.DUMMY);
+			return true;
+		}
+		
+		return false;
 	}
 }
