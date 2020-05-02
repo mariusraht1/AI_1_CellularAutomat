@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Random;
+
 public class Utilities {
 	private static Utilities instance;
 	
@@ -21,5 +23,26 @@ public class Utilities {
 		} else {
 			return false;
 		}
+	}
+	
+	public int generateRandom(int min, int max)
+	{
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+	
+	public int getArrayLength(Cell[] cells)
+	{
+		int length = 0;
+		
+		for (int i = 0; i < cells.length; i++) {
+			if (cells[i] == null) {
+				break;
+			} else {
+				length++;
+			}
+		}
+		
+		return length;
 	}
 }

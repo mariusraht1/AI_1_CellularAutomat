@@ -1,7 +1,5 @@
 package application;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import javafx.scene.shape.Shape;
 
 public class Cell {
@@ -100,15 +98,13 @@ public class Cell {
 		
 		return neighbourList;
 	}
-	
-	// TODO neighbourList enthält null-Werte und ist daher nie leer
-	
+		
 	public boolean goTo(CellType cellType)
 	{
 		Cell[] cells = neighbourList.getCells(cellType);
 		
 		if (!Utilities.getInstance().isEmpty(cells)) {
-			int x = ThreadLocalRandom.current().nextInt(cells.length);
+			int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells));
 			cells[x].setType(cellType);
 			setType(CellType.DUMMY);
 			
@@ -122,16 +118,10 @@ public class Cell {
 	{
 		Cell[] cells = neighbourList.getCells(CellType.DUMMY);
 		
-		if (!Utilities.getInstance().isEmpty(cells)) {
-			int x = ThreadLocalRandom.current().nextInt(2) - 1; // W: 50%
-			
-			switch (x)
-			{
-			case 1:
-				x = ThreadLocalRandom.current().nextInt(cells.length);
-				cells[x].setType(type);
-				return true;
-			}
+		if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(0, 1) == 1) {
+			x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells));
+			cells[x].setType(type);
+			return true;
 		}
 		
 		return false;
@@ -139,15 +129,11 @@ public class Cell {
 	
 	public boolean die()
 	{
-		int x = ThreadLocalRandom.current().nextInt(2) - 1; // W: 50%
-		
-		switch (x)
-		{
-		case 1:
+		if (Utilities.getInstance().generateRandom(0, 1) == 1) {
 			setType(CellType.DUMMY);
 			return true;
+		} else {
+			return false;
 		}
-		
-		return false;
 	}
 }
