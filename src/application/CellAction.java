@@ -14,6 +14,7 @@ public class CellAction {
 	
 	protected CellAction() {}
 	
+	// TODO Cell dies before it could reproduce itself
 	public void step()
 	{
 		for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {

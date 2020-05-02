@@ -105,7 +105,7 @@ public class Cell {
 		
 		if (!Utilities.getInstance().isEmpty(cells)) {
 			int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells));
-			cells[x].setType(cellType);
+			cells[x].setType(type);
 			setType(CellType.DUMMY);
 			
 			return true;
