@@ -4,14 +4,14 @@ import javafx.scene.paint.Color;
 
 public enum CellType
 {
-	DUMMY(Color.WHITE), PREDATOR(Color.RED), PREY(Color.DODGERBLUE), GRASS1(Color.KHAKI), GRASS2(Color.GREENYELLOW),
+	EMPTY(Color.WHITE), 
+	PREDATOR(Color.RED), 
+	PREY(Color.DODGERBLUE), 
+	GRASS1(Color.KHAKI), 
+	GRASS2(Color.GREENYELLOW),
 	GRASS3(Color.LIMEGREEN);
 	
 	private Color color;
-	
-	private CellType(Color color) {
-		this.setColor(color);
-	}
 	
 	public Color getColor()
 	{
@@ -21,6 +21,27 @@ public enum CellType
 	public void setColor(Color color)
 	{
 		this.color = color;
+	}
+	
+	private int maxLitter;
+	
+	public int getMaxLitter()
+	{
+		return maxLitter;
+	}
+
+	public void setMaxLitter(int maxLitter)
+	{
+		this.maxLitter = maxLitter;
+	}
+	
+	private CellType(Color color) {
+		this.setColor(color);
+	}
+	
+	private CellType(Color color, int maxLitter) {
+		this.setColor(color);
+		this.setMaxLitter(maxLitter);
 	}
 	
 	public int getNumOfCells()

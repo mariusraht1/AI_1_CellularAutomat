@@ -20,6 +20,11 @@ public class Main extends Application {
 		return primaryStage;
 	}
 	
+	public static final int MaxSuggestedSizeOfAxis = 50;
+	public static final int DefaultSizeOfAxis = 10;
+	public static final int DefaultNumOfPrey = 50;
+	public static final int DefaultNumOfPredator = 10;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		Main.primaryStage = primaryStage;

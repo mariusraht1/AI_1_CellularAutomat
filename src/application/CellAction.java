@@ -44,7 +44,7 @@ public class CellAction {
 							break;
 						default:
 							actionDone = true;
-							cell.goTo(CellType.DUMMY);
+							cell.goTo(CellType.EMPTY);
 							break;
 						}
 						
@@ -66,7 +66,7 @@ public class CellAction {
 							break;
 						default:
 							actionDone = true;
-							cell.goTo(CellType.DUMMY);
+							cell.goTo(CellType.EMPTY);
 							break;
 						}
 						
@@ -77,6 +77,13 @@ public class CellAction {
 					break;
 				}
 			}
+		}
+		
+		for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
+			for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
+				Cell cell = CellList.getInstance().getCell(i, j);
+				cell.setType(cell.getNewType());
+			}	
 		}
 	}
 }

@@ -16,6 +16,18 @@ public class Cell {
 		shape.setFill(type.getColor());
 	}
 	
+	private CellType newType;
+	
+	public CellType getNewType()
+	{
+		return newType;
+	}
+	
+	public void setNewType(CellType newType)
+	{
+		this.newType = newType;
+	}
+	
 	private Shape shape;
 	
 	public Shape getShape()
@@ -98,15 +110,15 @@ public class Cell {
 		
 		return neighbourList;
 	}
-		
+	
 	public boolean goTo(CellType cellType)
 	{
 		Cell[] cells = neighbourList.getCells(cellType);
 		
 		if (!Utilities.getInstance().isEmpty(cells)) {
 			int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells));
-			cells[x].setType(type);
-			setType(CellType.DUMMY);
+			cells[x].setNewType(type);
+			setNewType(CellType.EMPTY);
 			
 			return true;
 		} else {
@@ -116,11 +128,24 @@ public class Cell {
 	
 	public boolean reproduce()
 	{
-		Cell[] cells = neighbourList.getCells(CellType.DUMMY);
+		Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 		
-		if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(0, 1) == 1) {
-			x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells));
-			cells[x].setType(type);
+		// Je weniger Bestand umso höhere Wahrscheinlichkeit
+		int maxW = 12;
+		
+		if (type.getNumOfCells() < 10) {
+			maxW = 1;
+		}
+		
+		if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(1, maxW) == 1) {
+			// Bis zu 4 Nachkommen werfen
+			for (int i = 0; i < 4; i++) {
+				if (cells[i] != null) {
+					cells[i].setNewType(type);
+				} else {
+					break;
+				}
+			}
 			return true;
 		}
 		
@@ -130,7 +155,7 @@ public class Cell {
 	public boolean die()
 	{
 		if (Utilities.getInstance().generateRandom(0, 1) == 1) {
-			setType(CellType.DUMMY);
+			setNewType(CellType.EMPTY);
 			return true;
 		} else {
 			return false;

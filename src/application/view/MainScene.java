@@ -1,46 +1,31 @@
 package application.view;
 
-import application.Cell;
 import application.CellAction;
 import application.CellList;
 import application.CellType;
 import application.Main;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class MainScene {
 	@FXML
 	private GridPane gp_environment;
+	@FXML
+	private TextField tb_numOfPredator;
+	@FXML
+	private TextField tb_numOfPrey;
+	@FXML
+	private TextField tb_sizeOfAxis;
 	
 	@FXML
 	private void initialize()
 	{
-		gp_environment.getChildren().clear();
+		tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
+		tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
+		tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
 		
-		for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
-			for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
-				Circle circle = new Circle(10, Color.WHITE);
-				circle.setStroke(Color.BLACK);
-				GridPane.setMargin(circle, new Insets(5));
-				
-				CellList.getInstance().getCells()[i][j] = new Cell(CellType.DUMMY, circle, i, j);
-				
-				gp_environment.add(circle, i, j);
-			}
-		}
-		
-		CellList.getInstance().determineNeighbours();
-		
-		Cell cell = CellList.getInstance().getCell(2, 7);
-		cell.setType(CellType.PREY);
-		cell = CellList.getInstance().getCell(2, 6);
-		cell.setType(CellType.PREY);
-		
-		cell = CellList.getInstance().getCell(7, 1);
-		cell.setType(CellType.PREDATOR);
+		Main.getEnvironment().setSizeOfAxis(Main.DefaultSizeOfAxis, gp_environment);
 	}
 	
 	@FXML
@@ -59,5 +44,33 @@ public class MainScene {
 	private void onAction_btnPlay_100()
 	{
 		
+	}
+	
+	@FXML
+	private void onAction_btnSetOptions()
+	{
+		int sizeOfAxis = Integer.parseInt(tb_sizeOfAxis.getText());
+		int maxNumOf = Main.getEnvironment().getWidth() * Main.getEnvironment().getHeight();
+		int numOfPredator = Integer.parseInt(tb_numOfPredator.getText());
+		int numOfPrey = Integer.parseInt(tb_numOfPrey.getText());
+		int sum = numOfPredator + numOfPrey;
+		
+		if (sum > maxNumOf || sum <= 0) {
+			tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
+			tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
+		} else if (numOfPredator > maxNumOf) {
+			tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
+		} else if (numOfPrey > maxNumOf) {
+			tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
+		} else if (sizeOfAxis > Main.MaxSuggestedSizeOfAxis || sizeOfAxis <= 0) {
+			tb_sizeOfAxis.setText(String.valueOf(Main.DefaultNumOfPrey));
+		} else {
+			Main.getEnvironment().setSizeOfAxis(sizeOfAxis, gp_environment);
+			
+			Main.getEnvironment().generateCells(CellType.PREDATOR, numOfPredator);
+			Main.getEnvironment().generateCells(CellType.PREY, numOfPrey);
+			
+			CellList.getInstance().determineNeighbours();
+		}
 	}
 }
