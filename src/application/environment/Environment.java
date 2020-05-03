@@ -90,4 +90,8 @@ public abstract class Environment implements EnvironmentInterface {
 
 	CellList.getInstance().determineNeighbours();
     }
+
+    public int getMaxNumOfCells() {
+	return width * height;
+    }
 }

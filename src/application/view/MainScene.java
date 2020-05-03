@@ -63,7 +63,7 @@ public class MainScene {
     private void onAction_btnSetOptions() {
 	try {
 	    int sizeOfAxis = Integer.parseInt(tb_sizeOfAxis.getText());
-	    int maxNumOf = Main.getEnvironment().getWidth() * Main.getEnvironment().getHeight();
+	    int maxNumOf = Main.getEnvironment().getMaxNumOfCells();
 	    int numOfPredator = Integer.parseInt(tb_numOfPredator.getText());
 	    int numOfPrey = Integer.parseInt(tb_numOfPrey.getText());
 	    int sum = numOfPredator + numOfPrey;

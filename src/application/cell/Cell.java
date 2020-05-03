@@ -112,6 +112,7 @@ public class Cell {
 	}
     }
 
+    // TODO Reproduction for prey and predator wasn't correct
     public boolean reproduce() {
 	Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 
@@ -126,13 +127,13 @@ public class Cell {
 	// max = 1 / p
 	int max = (int) (1 / p);
 
-	if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(1, max) == 1) {
+	if (Utilities.getInstance().generateRandom(1, max) == 1) {
 	    
 	    // Birth rate: Give birth to x offsprings
 	    // b = (1 - r) * maxNumOfLitter
 	    int b = (int) (p * Main.MaxNumOfLitter);
 
-	    for (int i = 1; i <= b; i++) {
+	    for (int i = 0; i < b; i++) {
 		if (cells[i] != null) {
 		    cells[i].setNewType(type);
 		} else {

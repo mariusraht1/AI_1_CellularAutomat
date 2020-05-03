@@ -20,7 +20,20 @@ public class CellAction {
     public void play(int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey) throws Exception {
 	for (int n = 1; n <= numOfSteps; n++) {
 	    step();
-	    updateCells(lbl_numOfPredator, lbl_numOfPrey);
+	    updateCells();
+
+	    int maxNumOfCells = Main.getEnvironment().getMaxNumOfCells();
+	    int numOfPredator = CellType.PREDATOR.getNumOfCells();
+	    int numOfPrey = CellType.PREY.getNumOfCells();
+	    int sum = numOfPredator + numOfPrey;
+
+	    // 1. Attractor
+	    if(sum == maxNumOfCells) {
+		break;
+	    }
+	    
+	    lbl_numOfPredator.setText(String.valueOf(numOfPredator));
+	    lbl_numOfPrey.setText(String.valueOf(numOfPrey));
 
 	    if (n < numOfSteps) {
 		Thread.sleep(1000);
@@ -37,14 +50,14 @@ public class CellAction {
 
 		switch (cell.getType()) {
 		case PREDATOR:
-		    // 1. Beute vorhanden -> essen (W=1)
-		    // 2. Nachwuchs zeugen (W=0-1)
-		    // 3. Sterben (W=0-1)
-		    // 4. Weitergehen (W=1; zufälliges freies Feld)
+		    // 1. Try to eat available prey (W=1)
+		    // 2. Try to reproduce yourself (W=0-1)
+		    // 3. Try (not) to die (W=0-1)
+		    // 4. Go forward (W=1; random empty field)
 		    while (!actionDone) {
 			switch (x) {
 			case 0:
-			    actionDone = cell.goTo(CellType.PREY);
+			    cell.goTo(CellType.PREY);
 			    break;
 			case 1:
 			    actionDone = cell.reproduce();
@@ -62,9 +75,9 @@ public class CellAction {
 		    }
 		    break;
 		case PREY:
-		    // 1. Nachwuchs zeugen -> paaren (W=0-1)
-		    // 2. Sterben (W=0-1)
-		    // 3. Weitergehen (zufälliges freies Feld)
+		    // 1. Try to reproduce yourself (W=0-1)
+		    // 2. Try (not) to die (W=0-1)
+		    // 3. Go forward (W=1; random empty field)
 		    while (!actionDone) {
 			switch (x) {
 			case 0:
@@ -89,17 +102,15 @@ public class CellAction {
 	}
     }
 
-    public void updateCells(Label lbl_numOfPredator, Label lbl_numOfPrey) {
+    public void updateCells() {
 	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
 	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
 		Cell cell = CellList.getInstance().getCell(i, j);
 		if (cell.getNewType() != null) {
 		    cell.setType(cell.getNewType());
+		    cell.setNewType(null);
 		}
 	    }
 	}
-
-	lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
-	lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
     }
 }
