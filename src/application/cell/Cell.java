@@ -107,40 +107,61 @@ public class Cell {
 	    setNewType(CellType.EMPTY);
 
 	    return true;
-	} else {
-	    return false;
 	}
+
+	return false;
     }
 
-    // TODO Reproduction for prey and predator wasn't correct
+    // Alternatively: HUNGER attribute
+    public boolean eat(CellType cellType) {
+	Cell[] cells = neighbourList.getCells(cellType);
+
+	if (!Utilities.getInstance().isEmpty(cells)) {
+	    // Probability of eating: p = 1 - r
+	    double p = 1 - type.getRelationTo(cellType);
+	    int max = (int) (1 / p);
+
+	    if (Utilities.getInstance().generateRandom(1, max) == 1) {
+		int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells) - 1);
+		cells[x].setNewType(type);
+		setNewType(CellType.EMPTY);
+		return true;
+	    }
+	}
+
+	return false;
+    }
+
     public boolean reproduce() {
 	Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 
-	CellType oppositeCellType = CellType.PREDATOR;
-	
-	if (type.equals(CellType.PREDATOR)) {
-	    oppositeCellType = CellType.PREY;
-	}
-	
-	// p = 1 - r
-	double p = 1 - type.getRelationTo(oppositeCellType);
-	// max = 1 / p
-	int max = (int) (1 / p);
+	if (!Utilities.getInstance().isEmpty(cells)) {
+	    CellType oppositeCellType = CellType.PREDATOR;
 
-	if (Utilities.getInstance().generateRandom(1, max) == 1) {
-	    
-	    // Birth rate: Give birth to x offsprings
-	    // b = (1 - r) * maxNumOfLitter
-	    int b = (int) (p * Main.MaxNumOfLitter);
-
-	    for (int i = 0; i < b; i++) {
-		if (cells[i] != null) {
-		    cells[i].setNewType(type);
-		} else {
-		    break;
-		}
+	    if (type.equals(CellType.PREDATOR)) {
+		oppositeCellType = CellType.PREY;
 	    }
-	    return true;
+
+	    // Probability of reproduction: p = 1 - r
+	    double p = 1 - type.getRelationTo(oppositeCellType);
+	    int max = (int) (1 / p);
+
+	    if (Utilities.getInstance().generateRandom(1, max) == 1) {
+
+		// Birth rate: Give birth to x offsprings
+		// b = (1 - r) * maxNumOfLitter
+		int b = (int) (p * Main.MaxNumOfLitter);
+
+		for (int i = 0; i < b; i++) {
+		    if (cells[i] != null) {
+			cells[i].setNewType(type);
+		    } else {
+			break;
+		    }
+		}
+
+		return true;
+	    }
 	}
 
 	return false;
@@ -148,20 +169,20 @@ public class Cell {
 
     public boolean die() {
 	CellType oppositeCellType = CellType.PREDATOR;
-	
+
 	if (type.equals(CellType.PREDATOR)) {
 	    oppositeCellType = CellType.PREY;
 	}
-	
-	// p = r
+
+	// Probability of death: p = r
 	double p = type.getRelationTo(oppositeCellType);
 	int max = (int) (1 / p);
-	
+
 	if (Utilities.getInstance().generateRandom(1, max) == 1) {
 	    setNewType(CellType.EMPTY);
 	    return true;
-	} else {
-	    return false;
 	}
+
+	return false;
     }
 }

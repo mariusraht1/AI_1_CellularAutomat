@@ -28,10 +28,10 @@ public class CellAction {
 	    int sum = numOfPredator + numOfPrey;
 
 	    // 1. Attractor
-	    if(sum == maxNumOfCells) {
+	    if (sum == maxNumOfCells) {
 		break;
 	    }
-	    
+
 	    lbl_numOfPredator.setText(String.valueOf(numOfPredator));
 	    lbl_numOfPrey.setText(String.valueOf(numOfPrey));
 
@@ -41,6 +41,7 @@ public class CellAction {
 	}
     }
 
+    // TODO Predator always wins
     public void step() {
 	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
 	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
@@ -57,7 +58,7 @@ public class CellAction {
 		    while (!actionDone) {
 			switch (x) {
 			case 0:
-			    cell.goTo(CellType.PREY);
+			    cell.eat(CellType.PREY);
 			    break;
 			case 1:
 			    actionDone = cell.reproduce();

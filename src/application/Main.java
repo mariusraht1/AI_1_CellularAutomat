@@ -9,6 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Zellulärer Automat für Räuber-Beute-Modell
+ * 
+ * @author Marius Raht
+ * @version 03.05.2020-001
+ */
 public class Main extends Application {
     private static Environment environment;
 
@@ -35,7 +41,7 @@ public class Main extends Application {
 	Main.primaryStage = primaryStage;
 	Main.environment = Environment_Moore.getInstance();
 
-	primaryStage.setTitle("ZA: Räuber-Beute (Fuchs/Gans)");
+	primaryStage.setTitle("CA: Predator-Prey Model");
 
 	primaryStage.setMaximized(false);
 	primaryStage.setResizable(false);
