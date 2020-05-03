@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Locale;
 import java.util.Random;
 
 import application.cell.Cell;
@@ -43,5 +44,28 @@ public class Utilities {
 	}
 
 	return length;
+    }
+
+    public enum OSType {
+	Windows, MacOS, Unix, Other
+    };
+    protected static OSType osType;
+
+    public OSType getOperatingSystemType() {
+	if (osType == null) {
+	    String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+	    
+	    if (osName.contains("mac") || osName.contains("darwin")) {
+		osType = OSType.MacOS;
+	    } else if (osName.contains("win")) {
+		osType = OSType.Windows;
+	    } else if (osName.contains("nux")) {
+		osType = OSType.Unix;
+	    } else {
+		osType = OSType.Other;
+	    }
+	}
+	
+	return osType;
     }
 }

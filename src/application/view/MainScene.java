@@ -1,7 +1,7 @@
 package application.view;
 
+import application.History;
 import application.Main;
-import application.cell.CellAction;
 import application.cell.CellType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,7 +23,7 @@ public class MainScene {
     private TextField tb_sizeOfAxis;
     @FXML
     private GridPane gp_environment;
-    
+
     @FXML
     private void initialize() {
 	tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
@@ -34,6 +34,11 @@ public class MainScene {
 	Main.getEnvironment().setSizeOfAxis(Main.DefaultSizeOfAxis, gp_environment);
 	Main.getEnvironment().setOptions(gp_environment, Main.DefaultSizeOfAxis, Main.DefaultNumOfPredator,
 		Main.DefaultNumOfPrey);
+
+	int numOfPredator = CellType.PREDATOR.getNumOfCells();
+	int numOfPrey = CellType.PREY.getNumOfCells();
+
+	History.getInstance().add(numOfPredator, numOfPrey);
 
 	lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
 	lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
@@ -52,7 +57,7 @@ public class MainScene {
 	    if (numOfSteps > Main.MaxNumOfSteps || numOfSteps <= 0) {
 		tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 	    } else {
-		CellAction.getInstance().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey);
+		Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey);
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -83,5 +88,11 @@ public class MainScene {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+    }
+
+    @FXML
+    private void onAction_btnExport() {
+	History.getInstance().export();
+	History.getInstance().showExport();
     }
 }

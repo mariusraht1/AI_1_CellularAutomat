@@ -37,6 +37,7 @@
             <Label text="Beute:" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <Label fx:id="lbl_numOfPredator" text="0" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Label fx:id="lbl_numOfPrey" text="0" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Label text="Weitere Einstellungen:">
