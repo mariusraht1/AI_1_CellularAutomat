@@ -49,7 +49,7 @@ public enum CellType {
 	return numOfCells;
     }
 
-    public int getRelationTo(CellType cellType) {
+    public double getRelationTo(CellType cellType) {
 	int numOfCellsType1 = getNumOfCells();
 	int numOfCellsType2 = cellType.getNumOfCells();
 	int total = numOfCellsType1 + numOfCellsType2;

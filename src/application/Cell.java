@@ -110,23 +110,20 @@ public class Cell {
 	}
     }
 
-    // TODO Fortpflanzung sollte von Beständen abhängen
-    // < 0.2 W=1.0
-    // < 0.4 W=0.8
-    // < 0.6 W=0.6
-    // < 0.8 W=0.4
-    // < 1.0 W=0.2
     public boolean reproduce() {
 	Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 
-	// Je weniger Bestand umso höhere Wahrscheinlichkeit
-	int maxW = 12;
-
-	if (type.getNumOfCells() < 10) {
-	    maxW = 1;
+	CellType oppositeCellType = CellType.PREDATOR;
+	
+	if (type.equals(CellType.PREDATOR)) {
+	    oppositeCellType = CellType.PREY;
 	}
+	
+	// p = 1 - r
+	double p = 1 - type.getRelationTo(oppositeCellType);
+	int max = (int) (1 / p);
 
-	if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(1, maxW) == 1) {
+	if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(1, max) == 1) {
 	    // Bis zu x Nachkommen werfen
 	    for (int i = 0; i < 4; i++) {
 		if (cells[i] != null) {
@@ -141,21 +138,18 @@ public class Cell {
 	return false;
     }
 
-    // Tod sollte von Beständen abhängen
-    // < 0.2 W=0.2
-    // < 0.4 W=0.4
-    // < 0.6 W=0.6
-    // < 0.8 W=0.8
-    // < 1.0 W=1.0
     public boolean die() {
-	// Je mehr Bestand umso höhere Wahrscheinlichkeit
-	int maxW = 2;
-
-	if (type.getNumOfCells() < 10) {
-	    maxW = 12;
+	CellType oppositeCellType = CellType.PREDATOR;
+	
+	if (type.equals(CellType.PREDATOR)) {
+	    oppositeCellType = CellType.PREY;
 	}
 	
-	if (Utilities.getInstance().generateRandom(1, maxW) == 1) {
+	// p = r
+	double p = type.getRelationTo(oppositeCellType);
+	int max = (int) (1 / p);
+	
+	if (Utilities.getInstance().generateRandom(1, max) == 1) {
 	    setNewType(CellType.EMPTY);
 	    return true;
 	} else {
