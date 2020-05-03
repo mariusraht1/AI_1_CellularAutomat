@@ -1,5 +1,6 @@
-package application;
+package application.cell;
 
+import application.Main;
 import javafx.scene.control.Label;
 
 public class CellAction {

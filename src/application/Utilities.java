@@ -2,6 +2,8 @@ package application;
 
 import java.util.Random;
 
+import application.cell.Cell;
+
 public class Utilities {
     private static Utilities instance;
 

@@ -1,8 +1,8 @@
 package application.view;
 
-import application.CellAction;
-import application.CellType;
 import application.Main;
+import application.cell.CellAction;
+import application.cell.CellType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

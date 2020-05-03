@@ -1,10 +1,10 @@
 package application.environment;
 
-import application.Cell;
-import application.CellList;
-import application.CellType;
 import application.Main;
 import application.Utilities;
+import application.cell.Cell;
+import application.cell.CellList;
+import application.cell.CellType;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -30,7 +30,7 @@ public abstract class Environment implements EnvironmentInterface {
     public void setHeight(int height) {
 	this.height = height;
     }
-
+    
     protected Environment() {
     }
 

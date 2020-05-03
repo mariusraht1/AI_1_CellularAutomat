@@ -1,8 +1,8 @@
 package application.environment;
 
-import application.Cell;
-import application.CellList;
-import application.NeighbourList;
+import application.cell.Cell;
+import application.cell.CellList;
+import application.cell.NeighbourList;
 
 public class Environment_Moore extends Environment {
     private static final int NumOfNeighbours = 8;

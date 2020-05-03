@@ -1,5 +1,7 @@
-package application;
+package application.cell;
 
+import application.Main;
+import application.Utilities;
 import javafx.scene.shape.Shape;
 
 public class Cell {
@@ -121,11 +123,16 @@ public class Cell {
 	
 	// p = 1 - r
 	double p = 1 - type.getRelationTo(oppositeCellType);
+	// max = 1 / p
 	int max = (int) (1 / p);
 
 	if (!Utilities.getInstance().isEmpty(cells) && Utilities.getInstance().generateRandom(1, max) == 1) {
-	    // Bis zu x Nachkommen werfen
-	    for (int i = 0; i < 4; i++) {
+	    
+	    // Birth rate: Give birth to x offsprings
+	    // b = (1 - r) * maxNumOfLitter
+	    int b = (int) (p * Main.MaxNumOfLitter);
+
+	    for (int i = 1; i <= b; i++) {
 		if (cells[i] != null) {
 		    cells[i].setNewType(type);
 		} else {

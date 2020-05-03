@@ -1,7 +1,7 @@
 package application.environment;
 
-import application.Cell;
-import application.NeighbourList;
+import application.cell.Cell;
+import application.cell.NeighbourList;
 
 public interface EnvironmentInterface {
     public int getNumOfNeighbours();

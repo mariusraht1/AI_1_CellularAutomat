@@ -28,6 +28,7 @@ public class Main extends Application {
     public static final int DefaultSizeOfAxis = 10;
     public static final int DefaultNumOfPrey = 5;
     public static final int DefaultNumOfPredator = 1;
+    public static final int MaxNumOfLitter = 8;
 
     @Override
     public void start(Stage primaryStage) {

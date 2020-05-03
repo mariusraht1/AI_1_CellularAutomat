@@ -1,4 +1,6 @@
-package application;
+package application.cell;
+
+import application.Main;
 
 public class NeighbourList {
     private Cell[] content;
