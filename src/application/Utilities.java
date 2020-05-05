@@ -49,12 +49,13 @@ public class Utilities {
     public enum OSType {
 	Windows, MacOS, Unix, Other
     };
+
     protected static OSType osType;
 
     public OSType getOperatingSystemType() {
 	if (osType == null) {
 	    String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-	    
+
 	    if (osName.contains("mac") || osName.contains("darwin")) {
 		osType = OSType.MacOS;
 	    } else if (osName.contains("win")) {
@@ -65,7 +66,15 @@ public class Utilities {
 		osType = OSType.Other;
 	    }
 	}
-	
+
 	return osType;
+    }
+
+    public int divide(int dividend, int divisor) {
+	if (divisor == 0) {
+	    return 0;
+	} else {
+	    return dividend / divisor;
+	}
     }
 }

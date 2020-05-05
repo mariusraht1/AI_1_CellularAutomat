@@ -132,7 +132,6 @@ public abstract class Environment implements EnvironmentInterface {
 	}
     }
     
-    // TODO Predator always wins
     public void step() {
 	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
 	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {

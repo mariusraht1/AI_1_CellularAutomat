@@ -31,6 +31,10 @@ public class History {
     private History() {
     };
 
+    public void clear() {
+	population.clear();
+    }
+    
     public void add(int numOfPredator, int numOfPrey) {
 	population.add(new int[] { numOfPredator, numOfPrey });
     }

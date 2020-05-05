@@ -37,7 +37,8 @@ public class MainScene {
 
 	int numOfPredator = CellType.PREDATOR.getNumOfCells();
 	int numOfPrey = CellType.PREY.getNumOfCells();
-
+	
+	History.getInstance().clear();
 	History.getInstance().add(numOfPredator, numOfPrey);
 
 	lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
@@ -83,6 +84,7 @@ public class MainScene {
 	    } else if (sizeOfAxis > Main.MaxSuggestedSizeOfAxis || sizeOfAxis <= 0) {
 		tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
 	    } else {
+		initialize();
 		Main.getEnvironment().setOptions(gp_environment, sizeOfAxis, numOfPredator, numOfPrey);
 	    }
 	} catch (Exception e) {
