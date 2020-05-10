@@ -158,10 +158,10 @@ public class Cell {
     // TODO: Predator is reproducing itself though no prey
     
     public boolean reproduce() {
-	if (age >= type.getMinLitterAge() && age <= type.getMaxLitterAge()) {
+	if (age >= type.getMinLitterAge() && age <= type.getMaxLitterAge() && hunger < type.getMaxHunger()) {
 	    Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 
-	    if (!Utilities.getInstance().isEmpty(cells) && hunger < type.getMaxHunger()) {
+	    if (!Utilities.getInstance().isEmpty(cells)) {
 		Log.getInstance().add("Reproduce: Age = " + age + "; Hunger = " + hunger);
 		
 		// The less animals of the same type around the animal the more offsprings

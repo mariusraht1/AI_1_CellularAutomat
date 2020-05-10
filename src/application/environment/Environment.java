@@ -148,9 +148,7 @@ public abstract class Environment implements EnvironmentInterface {
 	    lbl_numOfPrey.setText(String.valueOf(numOfPrey));
 
 	    if (sum == maxNumOfCells) {
-		break; // 1. Attractor
-	    } else if (n < numOfSteps) {
-		Thread.sleep(1000);
+		break; // Attractor
 	    }
 	}
     }
