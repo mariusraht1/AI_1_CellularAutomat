@@ -1,10 +1,14 @@
 package application.view;
 
 import application.History;
+import application.Log;
 import application.Main;
 import application.cell.CellType;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -22,24 +26,44 @@ public class MainScene {
     @FXML
     private TextField tb_sizeOfAxis;
     @FXML
+    private LineChart<Integer, Integer> lc_population;
+    @FXML
+    private TextArea ta_console;
+    @FXML
     private GridPane gp_environment;
+
+    private Series<Integer, Integer> predatorSeries = new Series<Integer, Integer>();
+    private Series<Integer, Integer> preySeries = new Series<Integer, Integer>();
 
     @FXML
     private void initialize() {
+	Log.getInstance().setOutputControl(ta_console);
+
 	tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 	tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
 	tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
 	tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
+	lc_population.setTitle("Population");
 
-	Main.getEnvironment().setSizeOfAxis(Main.DefaultSizeOfAxis, gp_environment);
 	Main.getEnvironment().setOptions(gp_environment, Main.DefaultSizeOfAxis, Main.DefaultNumOfPredator,
 		Main.DefaultNumOfPrey);
 
 	int numOfPredator = CellType.PREDATOR.getNumOfCells();
 	int numOfPrey = CellType.PREY.getNumOfCells();
-	
-	History.getInstance().clear();
-	History.getInstance().add(numOfPredator, numOfPrey);
+
+	predatorSeries.setName("Predator");
+	preySeries.setName("Prey");
+
+	if (!lc_population.getData().contains(predatorSeries)) {
+	    lc_population.getData().add(predatorSeries);
+	}
+
+	if (!lc_population.getData().contains(preySeries)) {
+	    lc_population.getData().add(preySeries);
+	}
+
+	History.getInstance().clear(predatorSeries, preySeries);
+	History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
 
 	lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
 	lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
@@ -58,7 +82,7 @@ public class MainScene {
 	    if (numOfSteps > Main.MaxNumOfSteps || numOfSteps <= 0) {
 		tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 	    } else {
-		Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey);
+		Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey, predatorSeries, preySeries);
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -86,6 +110,7 @@ public class MainScene {
 	    } else {
 		initialize();
 		Main.getEnvironment().setOptions(gp_environment, sizeOfAxis, numOfPredator, numOfPrey);
+		tb_sizeOfAxis.setText(Integer.toString(sizeOfAxis));
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();

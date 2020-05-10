@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities.OSType;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 
 public class History {
     private static History instance;
@@ -31,12 +33,17 @@ public class History {
     private History() {
     };
 
-    public void clear() {
+    public void clear(Series<Integer, Integer> predatorSeries, Series<Integer, Integer> preySeries) {
 	population.clear();
+	predatorSeries.getData().clear();
+	preySeries.getData().clear();
     }
-    
-    public void add(int numOfPredator, int numOfPrey) {
+
+    public void add(int numOfPredator, int numOfPrey, Series<Integer, Integer> predatorSeries, Series<Integer, Integer> preySeries) {
 	population.add(new int[] { numOfPredator, numOfPrey });
+
+	predatorSeries.getData().add(new Data<Integer, Integer>(Main.getEnvironment().getNumOfRounds(), numOfPredator));
+	preySeries.getData().add(new Data<Integer, Integer>(Main.getEnvironment().getNumOfRounds(), numOfPrey));
     }
 
     public void export() {
@@ -64,7 +71,7 @@ public class History {
     public void showExport() {
 	try {
 	    if (Utilities.getInstance().getOperatingSystemType().equals(OSType.Windows)) {
-		 Runtime.getRuntime().exec("explorer.exe /select, " + file);
+		Runtime.getRuntime().exec("explorer.exe /select, " + file);
 	    } else {
 		Desktop.getDesktop().open(History.getInstance().getFile());
 	    }

@@ -3,8 +3,7 @@ package application.cell;
 import javafx.scene.paint.Color;
 
 public enum CellType {
-    EMPTY(Color.WHITE), PREDATOR(Color.RED), PREY(Color.DODGERBLUE), GRASS1(Color.KHAKI), GRASS2(Color.GREENYELLOW),
-    GRASS3(Color.LIMEGREEN);
+    EMPTY(Color.WHITE), PREDATOR(Color.RED, 5, 4, 2, 4, 3), PREY(Color.DODGERBLUE, 5, 4, 2, 4, 3);
 
     private Color color;
 
@@ -14,6 +13,16 @@ public enum CellType {
 
     public void setColor(Color color) {
 	this.color = color;
+    }
+
+    private int maxAge;
+
+    public int getMaxAge() {
+	return maxAge;
+    }
+
+    public void setMaxAge(int maxAge) {
+	this.maxAge = maxAge;
     }
 
     private int maxLitter;
@@ -26,13 +35,46 @@ public enum CellType {
 	this.maxLitter = maxLitter;
     }
 
+    private int minLitterAge;
+    
+    public int getMinLitterAge() {
+	return minLitterAge;
+    }
+
+    public void setMinLitterAge(int minLitterAge) {
+	this.minLitterAge = minLitterAge;
+    }
+    
+    private int maxLitterAge;
+
+    public int getMaxLitterAge() {
+	return maxLitterAge;
+    }
+
+    public void setMaxLitterAge(int maxLitterAge) {
+	this.maxLitterAge = maxLitterAge;
+    }
+
+    private int maxHunger;
+
+    public int getMaxHunger() {
+	return maxHunger;
+    }
+
+    public void setMaxHunger(int maxHunger) {
+	this.maxHunger = maxHunger;
+    }
+
     private CellType(Color color) {
 	this.setColor(color);
     }
 
-    private CellType(Color color, int maxLitter) {
+    private CellType(Color color, int maxAge, int maxLitter, int minLitterAge, int maxLitterAge, int maxHunger) {
 	this.setColor(color);
+	this.setMaxAge(maxAge);
 	this.setMaxLitter(maxLitter);
+	this.setMaxLitterAge(maxLitterAge);
+	this.setMaxHunger(maxHunger);
     }
 
     public int getNumOfCells() {

@@ -1,13 +1,16 @@
 package application.environment;
 
 import application.History;
+import application.Log;
 import application.Main;
 import application.Utilities;
 import application.cell.Cell;
 import application.cell.CellList;
 import application.cell.CellType;
 import javafx.geometry.Insets;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -32,7 +35,17 @@ public abstract class Environment implements EnvironmentInterface {
     public void setHeight(int height) {
 	this.height = height;
     }
-    
+
+    private int numOfRounds = 0;
+
+    public int getNumOfRounds() {
+	return numOfRounds;
+    }
+
+    public void setNumOfRounds(int numOfRounds) {
+	this.numOfRounds = numOfRounds;
+    }
+
     protected Environment() {
     }
 
@@ -48,6 +61,8 @@ public abstract class Environment implements EnvironmentInterface {
 
 		if (cell.getType().equals(CellType.EMPTY)) {
 		    cell.setType(cellType);
+		    cell.growOlder();
+		    cell.becomeHungrier();
 		    wasGenerated = true;
 		} else if (n == 10) {
 		    break;
@@ -59,24 +74,27 @@ public abstract class Environment implements EnvironmentInterface {
     }
 
     public void setSizeOfAxis(int sizeOfAxis, GridPane gp_environment) {
-	Main.getEnvironment().setWidth(sizeOfAxis);
-	Main.getEnvironment().setHeight(sizeOfAxis);
-	Main.getEnvironment().generateGrid(gp_environment);
+	setWidth(sizeOfAxis);
+	setHeight(sizeOfAxis);
+	generateGrid(gp_environment);
+	setNumOfRounds(0);
     }
 
     protected void generateGrid(GridPane gp_environment) {
 	gp_environment.getChildren().clear();
 	CellList.setInstance(null);
 
-	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
-	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
+	for (int y = 0; y < Main.getEnvironment().getHeight(); y++) {
+	    for (int x = 0; x < Main.getEnvironment().getWidth(); x++) {
 		Rectangle shape = new Rectangle(8, 8, Color.WHITE);
 		shape.setStroke(Color.DIMGREY);
 		GridPane.setMargin(shape, new Insets(1));
+		Tooltip tooltip = new Tooltip(x + "/" + y);
+	        Tooltip.install(shape, tooltip);
 
-		CellList.getInstance().getCells()[i][j] = new Cell(CellType.EMPTY, shape, i, j);
+		CellList.getInstance().getCells()[x][y] = new Cell(CellType.EMPTY, shape, x, y);
 
-		gp_environment.add(shape, i, j);
+		gp_environment.add(shape, x, y);
 	    }
 	}
 
@@ -96,31 +114,36 @@ public abstract class Environment implements EnvironmentInterface {
     public int getMaxNumOfCells() {
 	return width * height;
     }
-    
-    public void updateCells() {
-	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
-	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
-		Cell cell = CellList.getInstance().getCell(i, j);
-		if (cell.getNewType() != null) {
-		    cell.setType(cell.getNewType());
-		    cell.setNewType(null);
-		}
-	    }
-	}
-    }
-    
-    public void play(int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey) throws Exception {
+
+    public void play(int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey,
+	    Series<Integer, Integer> predatorSeries, Series<Integer, Integer> preySeries) throws Exception {
 	for (int n = 1; n <= numOfSteps; n++) {
+	    this.numOfRounds++;
+	    
+	    String numOfRounds = "000";
+
+	    if (this.numOfRounds < 10) {
+		numOfRounds = "00" + this.numOfRounds;
+	    } else if (this.numOfRounds < 100) {
+		numOfRounds = "0" + this.numOfRounds;
+	    } else {
+		numOfRounds = Integer.toString(this.numOfRounds);
+	    }
+
+	    Log.getInstance().add("*****************************************");
+	    Log.getInstance().add("***** Round " + numOfRounds + " *************************");
+	    Log.getInstance().add("*****************************************");
+
 	    step();
 	    updateCells();
-	    
+
 	    int maxNumOfCells = Main.getEnvironment().getMaxNumOfCells();
 	    int numOfPredator = CellType.PREDATOR.getNumOfCells();
 	    int numOfPrey = CellType.PREY.getNumOfCells();
 	    int sum = numOfPredator + numOfPrey;
 
-	    History.getInstance().add(numOfPredator, numOfPrey);
-	    
+	    History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
+
 	    lbl_numOfPredator.setText(String.valueOf(numOfPredator));
 	    lbl_numOfPrey.setText(String.valueOf(numOfPrey));
 
@@ -131,65 +154,67 @@ public abstract class Environment implements EnvironmentInterface {
 	    }
 	}
     }
-    
+
     public void step() {
-	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
-	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
-		int x = 0;
+	for (int y = 0; y < Main.getEnvironment().getHeight(); y++) {
+	    for (int x = 0; x < Main.getEnvironment().getWidth(); x++) {
+		int n = 0;
 		boolean actionDone = false;
-		Cell cell = CellList.getInstance().getCell(i, j);
+		Cell cell = CellList.getInstance().getCell(x, y);
+
+		CellType eatableCellType = CellType.EMPTY;
 
 		switch (cell.getType()) {
 		case PREDATOR:
-		    // 1. Try to eat available prey (W=1)
-		    // 2. Try to reproduce yourself (W=0-1)
-		    // 3. Try (not) to die (W=0-1)
-		    // 4. Go forward (W=1; random empty field)
-		    while (!actionDone) {
-			switch (x) {
-			case 0:
-			    cell.eat(CellType.PREY);
-			    break;
-			case 1:
-			    actionDone = cell.reproduce();
-			    break;
-			case 2:
-			    actionDone = cell.die();
-			    break;
-			default:
-			    actionDone = true;
-			    cell.goTo(CellType.EMPTY);
-			    break;
-			}
-
-			x++;
-		    }
+		    eatableCellType = CellType.PREY;
 		    break;
 		case PREY:
-		    // 1. Try to reproduce yourself (W=0-1)
-		    // 2. Try (not) to die (W=0-1)
-		    // 3. Go forward (W=1; random empty field)
-		    while (!actionDone) {
-			switch (x) {
-			case 0:
-			    actionDone = cell.reproduce();
-			    break;
-			case 1:
-			    actionDone = cell.die();
-			    break;
-			default:
-			    actionDone = true;
-			    cell.goTo(CellType.EMPTY);
-			    break;
-			}
-
-			x++;
-		    }
+		    eatableCellType = CellType.EMPTY;
 		    break;
 		default:
-		    break;
+		    continue;
+		}
+
+		Log.getInstance().add(cell.getType().toString() + "[" + x + "|" + y + "]:");
+
+		while (!actionDone) {
+		    switch (n) {
+		    case 0:
+			actionDone = cell.die();
+			break;
+		    case 1:
+			cell.eat(eatableCellType);
+			break;
+		    case 2:
+			actionDone = cell.reproduce();
+			break;
+		    default:
+			actionDone = true;
+			cell.goTo(CellType.EMPTY);
+			break;
+		    }
+
+		    n++;
 		}
 	    }
 	}
     }
+
+    public void updateCells() {
+	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
+	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
+		Cell cell = CellList.getInstance().getCell(i, j);
+		if (cell.getNewType() != null) {
+		    cell.setType(cell.getNewType());
+		    cell.setNewType(null);
+		}
+
+		if (cell.getType().equals(CellType.PREY) || cell.getType().equals(CellType.PREDATOR)) {
+		    cell.growOlder();
+		    cell.becomeHungrier();
+		}
+	    }
+	}
+    }
+
 }

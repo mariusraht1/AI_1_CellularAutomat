@@ -1,5 +1,6 @@
 package application.cell;
 
+import application.Log;
 import application.Main;
 import application.Utilities;
 import javafx.scene.shape.Shape;
@@ -13,6 +14,9 @@ public class Cell {
 
     public void setType(CellType type) {
 	this.type = type;
+	this.hunger = 0;
+	this.age = 0;
+
 	shape.setFill(type.getColor());
     }
 
@@ -81,7 +85,7 @@ public class Cell {
     }
 
     private int hunger;
-    
+
     public int getHunger() {
 	return hunger;
     }
@@ -89,7 +93,11 @@ public class Cell {
     public void setHunger(int hunger) {
 	this.hunger = hunger;
     }
-    
+
+    public void becomeHungrier() {
+	this.hunger++;
+    }
+
     public Cell(CellType type, Shape shape, int x, int y) {
 	this.type = type;
 	this.shape = shape;
@@ -113,60 +121,51 @@ public class Cell {
 
 	if (!Utilities.getInstance().isEmpty(cells)) {
 	    int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells) - 1);
+	    
+	    Log.getInstance().add("Go to: x = " + cells[x].x + "; y = " + cells[x].y);
+	    
 	    cells[x].setNewType(type);
 	    setNewType(CellType.EMPTY);
-
 	    return true;
 	}
 
 	return false;
     }
-    
-    // Alternatively: HUNGER attribute
+
     public boolean eat(CellType cellType) {
-	Cell[] cells = neighbourList.getCells(cellType);
+	if (hunger > 0) {
+	    Cell[] cells = neighbourList.getCells(cellType);
 
-	if (!Utilities.getInstance().isEmpty(cells)) {
-	    // Probability of eating: p = r
-	    double p = type.getRelationTo(cellType);
-	    int max = (int) Math.round(p * 10);
+	    if (!Utilities.getInstance().isEmpty(cells)) {
+		int min = hunger;
+		int max = type.getMaxHunger();
 
-	    System.out.println("(Eat)" + type.toString() + ": P = " + p + "; MAX = " + max);
-
-	    if (max > 0 && Utilities.getInstance().generateRandom(1, max) == 1) {
-		int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells) - 1);
-		cells[x].setNewType(type);
-		setNewType(CellType.EMPTY);
-		return true;
+		Log.getInstance().add("Eat: Min = " + min + "; Max = " + max);
+		
+		if (min > 0 && max > 0 && min <= max && Utilities.getInstance().generateRandom(min, max) == min) {
+		    int x = Utilities.getInstance().generateRandom(0,
+			    Utilities.getInstance().getArrayLength(cells) - 1);
+		    cells[x].setNewType(type);
+		    setNewType(CellType.EMPTY);
+		    return true;
+		}
 	    }
 	}
 
 	return false;
     }
 
+    // TODO: Predator is reproducing itself though no prey
+    
     public boolean reproduce() {
-	Cell[] cells = neighbourList.getCells(CellType.EMPTY);
+	if (age >= type.getMinLitterAge() && age <= type.getMaxLitterAge()) {
+	    Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 
-	if (!Utilities.getInstance().isEmpty(cells)) {
-	    CellType oppositeCellType = CellType.PREDATOR;
-
-	    if (type.equals(CellType.PREDATOR)) {
-		oppositeCellType = CellType.PREY;
-	    }
-
-	    // Probability of reproduction: p = r
-	    double p = type.getRelationTo(oppositeCellType);
-	    int max = (int) Math.round(p * 10);
-
-	    System.out.println("(Reproduce)" + type.toString() + ": P = " + p + "; MAX = " + max);
-
-	    if (max > 0 && Utilities.getInstance().generateRandom(1, max) == 1) {
-
-		// Birth rate: Give birth to x offsprings
-		// b = (1 - r) * maxNumOfLitter
-		int b = Main.MaxNumOfLitter;
-
-		for (int i = 0; i < b; i++) {
+	    if (!Utilities.getInstance().isEmpty(cells) && hunger < type.getMaxHunger()) {
+		Log.getInstance().add("Reproduce: Age = " + age + "; Hunger = " + hunger);
+		
+		// The less animals of the same type around the animal the more offsprings
+		for (int i = 0; i < Utilities.getInstance().getArrayLength(cells); i++) {
 		    if (cells[i] != null) {
 			cells[i].setNewType(type);
 		    } else {
@@ -179,22 +178,13 @@ public class Cell {
 	}
 
 	return false;
+
     }
 
     public boolean die() {
-	CellType oppositeCellType = CellType.PREDATOR;
+	if (hunger > type.getMaxHunger() || age > type.getMaxAge()) {
+	    Log.getInstance().add("Die: Age = " + age + "; Hunger = " + hunger);
 
-	if (type.equals(CellType.PREDATOR)) {
-	    oppositeCellType = CellType.PREY;
-	}
-
-	// Probability of death: p = 1 - r
-	double p = 1 - type.getRelationTo(oppositeCellType);
-	int max = (int) Math.round(p * 10);
-
-	System.out.println("(Die)" + type.toString() + ": P = " + p + "; MAX = " + max);
-
-	if (max > 0 && Utilities.getInstance().generateRandom(1, max) == 1) {
 	    setNewType(CellType.EMPTY);
 	    return true;
 	}
