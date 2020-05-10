@@ -8,6 +8,7 @@ import application.cell.Cell;
 import application.cell.CellList;
 import application.cell.CellType;
 import javafx.geometry.Insets;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -116,7 +117,8 @@ public abstract class Environment implements EnvironmentInterface {
     }
 
     public void play(int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey,
-	    Series<Integer, Integer> predatorSeries, Series<Integer, Integer> preySeries) throws Exception {
+	    LineChart<Integer, Integer> lc_population, Series<Integer, Integer> predatorSeries,
+	    Series<Integer, Integer> preySeries) throws Exception {
 	for (int n = 1; n <= numOfSteps; n++) {
 	    this.numOfRounds++;
 
@@ -134,6 +136,8 @@ public abstract class Environment implements EnvironmentInterface {
 	    Log.getInstance().add("***** Round " + numOfRounds + " ***********************");
 	    Log.getInstance().add("*****************************************");
 
+	    lc_population.setTitle("Population (" + this.numOfRounds + ")");
+	  
 	    step();
 	    updateCells();
 
@@ -173,7 +177,8 @@ public abstract class Environment implements EnvironmentInterface {
 		    continue;
 		}
 
-		Log.getInstance().add(cell.getType().toString() + "[" + x + "|" + y + "]:");
+		Log.getInstance().add(cell.getType() + "[" + x + "|" + y + "]: AGE = " + cell.getAge() + "; HUNGER = "
+			+ cell.getHunger());
 
 		while (!actionDone) {
 		    switch (n) {

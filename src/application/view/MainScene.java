@@ -64,9 +64,10 @@ public class MainScene {
 
 	History.getInstance().clear(predatorSeries, preySeries);
 	History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
-
+	
 	lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
 	lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
+	lc_population.setTitle("Population (" + Main.getEnvironment().getNumOfRounds() + ")");
     }
 
     @FXML
@@ -82,7 +83,7 @@ public class MainScene {
 	    if (numOfSteps > Main.MaxNumOfSteps || numOfSteps <= 0) {
 		tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 	    } else {
-		Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey, predatorSeries, preySeries);
+		Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population, predatorSeries, preySeries);
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();

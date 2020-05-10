@@ -174,7 +174,7 @@ public class Cell {
 		if (min > 0 && max > 0 && min <= max && Utilities.getInstance().generateRandom(min, max) == min) {
 		    int x = Utilities.getInstance().generateRandom(0,
 			    Utilities.getInstance().getArrayLength(cells) - 1);
-		    cells[x].setNewState(Optional.of(type), Optional.empty(), Optional.empty());
+		    cells[x].setNewState(Optional.of(type), Optional.empty(), Optional.of(0));
 		    setNewState(Optional.of(CellType.EMPTY), Optional.empty(), Optional.empty());
 		    return true;
 		}
@@ -184,9 +184,8 @@ public class Cell {
 	return false;
     }
 
-    // TODO: Predator is reproducing itself though no prey
-    // Expected result: They should die out without prey
-
+    // TODO: Prey dies out too quickly and reproduces not enough
+    
     public boolean reproduce() {
 	if (age >= type.getMinLitterAge() && age <= type.getMaxLitterAge() && hunger < type.getMaxHunger()) {
 	    Cell[] cells = neighbourList.getCells(CellType.EMPTY);
@@ -197,7 +196,7 @@ public class Cell {
 		// The less animals of the same type around the animal the more offsprings
 		for (int i = 0; i < Utilities.getInstance().getArrayLength(cells); i++) {
 		    if (cells[i] != null) {
-			cells[i].setNewState(Optional.of(type), Optional.empty(), Optional.empty());
+			cells[i].setNewState(Optional.of(type), Optional.empty(), Optional.of(hunger));
 		    } else {
 			break;
 		    }

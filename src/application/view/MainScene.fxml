@@ -84,7 +84,7 @@
                   <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetOptions" text="OK" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <LineChart fx:id="lc_population" animated="false" title="Population" GridPane.columnIndex="1" GridPane.rowSpan="4">
+            <LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="4">
               <xAxis>
                 <NumberAxis animated="false" side="BOTTOM" />
               </xAxis>
