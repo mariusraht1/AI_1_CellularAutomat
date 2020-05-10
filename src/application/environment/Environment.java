@@ -90,7 +90,7 @@ public abstract class Environment implements EnvironmentInterface {
 		shape.setStroke(Color.DIMGREY);
 		GridPane.setMargin(shape, new Insets(1));
 		Tooltip tooltip = new Tooltip(x + "/" + y);
-	        Tooltip.install(shape, tooltip);
+		Tooltip.install(shape, tooltip);
 
 		CellList.getInstance().getCells()[x][y] = new Cell(CellType.EMPTY, shape, x, y);
 
@@ -119,7 +119,7 @@ public abstract class Environment implements EnvironmentInterface {
 	    Series<Integer, Integer> predatorSeries, Series<Integer, Integer> preySeries) throws Exception {
 	for (int n = 1; n <= numOfSteps; n++) {
 	    this.numOfRounds++;
-	    
+
 	    String numOfRounds = "000";
 
 	    if (this.numOfRounds < 10) {
@@ -131,7 +131,7 @@ public abstract class Environment implements EnvironmentInterface {
 	    }
 
 	    Log.getInstance().add("*****************************************");
-	    Log.getInstance().add("***** Round " + numOfRounds + " *************************");
+	    Log.getInstance().add("***** Round " + numOfRounds + " ***********************");
 	    Log.getInstance().add("*****************************************");
 
 	    step();
@@ -199,17 +199,20 @@ public abstract class Environment implements EnvironmentInterface {
     }
 
     public void updateCells() {
-	for (int i = 0; i < Main.getEnvironment().getWidth(); i++) {
-	    for (int j = 0; j < Main.getEnvironment().getHeight(); j++) {
-		Cell cell = CellList.getInstance().getCell(i, j);
-		if (cell.getNewType() != null) {
-		    cell.setType(cell.getNewType());
-		    cell.setNewType(null);
+	for (int y = 0; y < Main.getEnvironment().getWidth(); y++) {
+	    for (int x = 0; x < Main.getEnvironment().getHeight(); x++) {
+		Cell cell = CellList.getInstance().getCell(x, y);
+		if (cell.getNewState() != null) {
+		    cell.applyNewState();
 		}
 
 		if (cell.getType().equals(CellType.PREY) || cell.getType().equals(CellType.PREDATOR)) {
 		    cell.growOlder();
 		    cell.becomeHungrier();
+
+		    Tooltip tooltip = new Tooltip(
+			    x + "/" + y + "; HUNGER = " + cell.getHunger() + "; AGE = " + cell.getAge());
+		    Tooltip.install(cell.getShape(), tooltip);
 		}
 	    }
 	}

@@ -3,7 +3,7 @@ package application.cell;
 import javafx.scene.paint.Color;
 
 public enum CellType {
-    EMPTY(Color.WHITE), PREDATOR(Color.RED, 5, 4, 2, 4, 3), PREY(Color.DODGERBLUE, 5, 4, 2, 4, 3);
+    EMPTY(Color.WHITE), PREDATOR(Color.RED, 5, 2, 4, 4, 3), PREY(Color.DODGERBLUE, 5, 2, 4, 4, 3);
 
     private Color color;
 
@@ -69,10 +69,11 @@ public enum CellType {
 	this.setColor(color);
     }
 
-    private CellType(Color color, int maxAge, int maxLitter, int minLitterAge, int maxLitterAge, int maxHunger) {
+    private CellType(Color color, int maxAge, int minLitterAge, int maxLitter, int maxLitterAge, int maxHunger) {
 	this.setColor(color);
 	this.setMaxAge(maxAge);
 	this.setMaxLitter(maxLitter);
+	this.setMinLitterAge(minLitterAge);
 	this.setMaxLitterAge(maxLitterAge);
 	this.setMaxHunger(maxHunger);
     }

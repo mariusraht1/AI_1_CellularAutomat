@@ -1,5 +1,7 @@
 package application.cell;
 
+import java.util.Optional;
+
 import application.Log;
 import application.Main;
 import application.Utilities;
@@ -14,20 +16,38 @@ public class Cell {
 
     public void setType(CellType type) {
 	this.type = type;
-	this.hunger = 0;
-	this.age = 0;
-
-	shape.setFill(type.getColor());
+	setColor();
     }
 
-    private CellType newType;
+    private Cell newState;
 
-    public CellType getNewType() {
-	return newType;
+    public Cell getNewState() {
+	return newState;
     }
 
-    public void setNewType(CellType newType) {
-	this.newType = newType;
+    public void setNewState(Optional<CellType> type, Optional<Integer> age, Optional<Integer> hunger) {
+	this.newState = new Cell();
+
+	if (type.isPresent()) {
+	    this.newState.setType(type.get());
+	}
+
+	if (age.isPresent()) {
+	    this.newState.setAge(age.get());
+	}
+
+	if (hunger.isPresent()) {
+	    this.newState.setHunger(hunger.get());
+	}
+    }
+
+    public void applyNewState() {
+	this.type = newState.getType();
+	this.age = newState.getAge();
+	this.hunger = newState.getHunger();
+	this.newState = null;
+
+	setColor();
     }
 
     private Shape shape;
@@ -38,6 +58,12 @@ public class Cell {
 
     public void setShape(Shape shape) {
 	this.shape = shape;
+    }
+
+    private void setColor() {
+	if (this.shape != null) {
+	    this.shape.setFill(this.type.getColor());
+	}
     }
 
     private int x;
@@ -108,6 +134,9 @@ public class Cell {
     public Cell(Cell cell) {
     }
 
+    public Cell() {
+    }
+
     public NeighbourList getNeighbours() {
 	if (neighbourList == null) {
 	    neighbourList = Main.getEnvironment().getNeighbours(this);
@@ -121,11 +150,11 @@ public class Cell {
 
 	if (!Utilities.getInstance().isEmpty(cells)) {
 	    int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells) - 1);
-	    
+
 	    Log.getInstance().add("Go to: x = " + cells[x].x + "; y = " + cells[x].y);
-	    
-	    cells[x].setNewType(type);
-	    setNewType(CellType.EMPTY);
+
+	    cells[x].setNewState(Optional.of(type), Optional.of(age), Optional.of(hunger));
+	    setNewState(Optional.of(CellType.EMPTY), Optional.empty(), Optional.empty());
 	    return true;
 	}
 
@@ -141,12 +170,12 @@ public class Cell {
 		int max = type.getMaxHunger();
 
 		Log.getInstance().add("Eat: Min = " + min + "; Max = " + max);
-		
+
 		if (min > 0 && max > 0 && min <= max && Utilities.getInstance().generateRandom(min, max) == min) {
 		    int x = Utilities.getInstance().generateRandom(0,
 			    Utilities.getInstance().getArrayLength(cells) - 1);
-		    cells[x].setNewType(type);
-		    setNewType(CellType.EMPTY);
+		    cells[x].setNewState(Optional.of(type), Optional.empty(), Optional.empty());
+		    setNewState(Optional.of(CellType.EMPTY), Optional.empty(), Optional.empty());
 		    return true;
 		}
 	    }
@@ -156,18 +185,19 @@ public class Cell {
     }
 
     // TODO: Predator is reproducing itself though no prey
-    
+    // Expected result: They should die out without prey
+
     public boolean reproduce() {
 	if (age >= type.getMinLitterAge() && age <= type.getMaxLitterAge() && hunger < type.getMaxHunger()) {
 	    Cell[] cells = neighbourList.getCells(CellType.EMPTY);
 
 	    if (!Utilities.getInstance().isEmpty(cells)) {
 		Log.getInstance().add("Reproduce: Age = " + age + "; Hunger = " + hunger);
-		
+
 		// The less animals of the same type around the animal the more offsprings
 		for (int i = 0; i < Utilities.getInstance().getArrayLength(cells); i++) {
 		    if (cells[i] != null) {
-			cells[i].setNewType(type);
+			cells[i].setNewState(Optional.of(type), Optional.empty(), Optional.empty());
 		    } else {
 			break;
 		    }
@@ -185,7 +215,7 @@ public class Cell {
 	if (hunger > type.getMaxHunger() || age > type.getMaxAge()) {
 	    Log.getInstance().add("Die: Age = " + age + "; Hunger = " + hunger);
 
-	    setNewType(CellType.EMPTY);
+	    setNewState(Optional.of(CellType.EMPTY), Optional.empty(), Optional.empty());
 	    return true;
 	}
 

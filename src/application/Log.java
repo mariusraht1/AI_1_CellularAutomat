@@ -2,7 +2,7 @@ package application;
 
 import java.util.ArrayList;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 
 public class Log {
     private static Log instance;
@@ -20,9 +20,9 @@ public class Log {
 
     private ArrayList<String> buffer = new ArrayList<String>();
 
-    private TextArea control;
+    private ListView<String> control;
 
-    public void setOutputControl(TextArea control) {
+    public void setOutputControl(ListView<String> control) {
 	this.control = control;
 	clear();
     }
@@ -33,13 +33,13 @@ public class Log {
 	if (control != null) {
 	    if (buffer.size() > 0) {
 		for (String msg : buffer) {
-		    control.appendText(msg + "\n");
+		    control.getItems().add(msg + "\n");
 		}
 
 		buffer.clear();
 	    }
 
-	    control.appendText(message + "\n");
+	    control.getItems().add(message + "\n");
 	} else {
 	    buffer.add(message);
 	}
@@ -47,6 +47,6 @@ public class Log {
 
     public void clear() {
 	buffer.clear();
-	control.clear();
+	control.getItems().clear();
     }
 }

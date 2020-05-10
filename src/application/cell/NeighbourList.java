@@ -30,7 +30,7 @@ public class NeighbourList {
 	Cell[] cells = new Cell[Main.getEnvironment().getNumOfNeighbours()];
 
 	for (int i = 0; i < content.length; i++) {
-	    if (content[i] != null && content[i].getType().equals(cellType)) {
+	    if (content[i] != null && content[i].getType().equals(cellType) && content[i].getNewState() == null) {
 		cells[x] = content[i];
 		x++;
 	    }

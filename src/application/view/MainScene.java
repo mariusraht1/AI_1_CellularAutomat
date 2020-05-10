@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -28,7 +28,7 @@ public class MainScene {
     @FXML
     private LineChart<Integer, Integer> lc_population;
     @FXML
-    private TextArea ta_console;
+    private ListView<String> lv_console;
     @FXML
     private GridPane gp_environment;
 
@@ -37,7 +37,7 @@ public class MainScene {
 
     @FXML
     private void initialize() {
-	Log.getInstance().setOutputControl(ta_console);
+	Log.getInstance().setOutputControl(lv_console);
 
 	tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 	tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
