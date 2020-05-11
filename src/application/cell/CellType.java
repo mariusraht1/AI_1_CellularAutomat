@@ -3,7 +3,7 @@ package application.cell;
 import javafx.scene.paint.Color;
 
 public enum CellType {
-	EMPTY(Color.WHITE), PREDATOR(Color.RED, 8, 3, 4, 6, 3), PREY(Color.DODGERBLUE, 20, 1, 8, 20, 99);
+	EMPTY(Color.WHITE), PREDATOR(Color.RED, 8, 3, 4, 6, 3), PREY(Color.DODGERBLUE, 20, 1, 8, 20, 999);
 
 	private Color color;
 
