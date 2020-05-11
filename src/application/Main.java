@@ -37,21 +37,16 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		Main.primaryStage = primaryStage;
-		Main.environment = Environment_Moore.getInstance();
-
-		primaryStage.setTitle("CA: Predator-Prey Model");
-
-		primaryStage.setMaximized(false);
-		primaryStage.setResizable(false);
-		primaryStage.centerOnScreen();
-
 		try {
-			Scene scene = new Scene(FXMLLoader.load(Main.class.getResource("/application/view/MainScene.fxml")));
+			Main.primaryStage = primaryStage;
+			Main.environment = Environment_Moore.getInstance();
 
+			primaryStage.setTitle("CA: Predator-Prey Model");
+			primaryStage.centerOnScreen();
+
+			Scene scene = new Scene(FXMLLoader.load(Main.class.getResource("/application/view/MainScene.fxml")));
 			primaryStage.setScene(scene);
 			primaryStage.show();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

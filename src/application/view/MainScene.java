@@ -5,6 +5,8 @@ import application.Log;
 import application.Main;
 import application.cell.CellType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
@@ -12,6 +14,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MainScene {
 	@FXML
@@ -71,9 +75,9 @@ public class MainScene {
 	}
 
 	private void initChart() {
-		predatorSeries.setName("Predator");
-		preySeries.setName("Prey");
-		
+		predatorSeries.setName(CellType.PREDATOR.getName());
+		preySeries.setName(CellType.PREY.getName());
+
 		if (!lc_population.getData().contains(predatorSeries)) {
 			lc_population.getData().add(predatorSeries);
 		}
@@ -81,7 +85,7 @@ public class MainScene {
 		if (!lc_population.getData().contains(preySeries)) {
 			lc_population.getData().add(preySeries);
 		}
-		
+
 		predatorSeries.nodeProperty().get().setStyle("-fx-stroke-width: 1px;");
 		preySeries.nodeProperty().get().setStyle("-fx-stroke-width: 1px;");
 
@@ -156,5 +160,51 @@ public class MainScene {
 	private void onAction_btnExport() {
 		History.getInstance().export();
 		History.getInstance().showExport();
+	}
+
+	private static boolean canceledCellTypeConfig = false;
+
+	public static boolean isCanceledCellTypeConfig() {
+		return canceledCellTypeConfig;
+	}
+
+	public static void setCanceledCellTypeConfig(boolean canceledCellTypeConfig) {
+		MainScene.canceledCellTypeConfig = canceledCellTypeConfig;
+	}
+
+	@FXML
+	private void onAction_btnConfigPredator() {
+		openCellTypeConfigScene(CellType.PREDATOR);
+
+		if (!canceledCellTypeConfig) {
+			onAction_btnSetOptions();
+		}
+	}
+
+	@FXML
+	private void onAction_btnConfigPrey() {
+		openCellTypeConfigScene(CellType.PREY);
+
+		if (!canceledCellTypeConfig) {
+			onAction_btnSetOptions();
+		}
+	}
+
+	private void openCellTypeConfigScene(CellType cellType) {
+		try {
+			final Stage dialog = new Stage();
+			dialog.initModality(Modality.APPLICATION_MODAL);
+			dialog.initOwner(Main.getPrimaryStage());
+			dialog.setTitle(cellType.getName());
+
+			CellTypeConfigScene.setCellType(cellType);
+			
+			Scene scene = new Scene(
+					FXMLLoader.load(Main.class.getResource("/application/view/CellTypeConfigScene.fxml")));
+			dialog.setScene(scene);			
+			dialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
