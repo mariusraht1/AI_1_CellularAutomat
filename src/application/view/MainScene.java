@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class MainScene {
 	@FXML
@@ -39,21 +40,40 @@ public class MainScene {
 	private void initialize() {
 		Log.getInstance().setOutputControl(lv_console);
 
+		initEnvironment();
+		initChart();
+		initHistory();
+		initGUI();
+	}
+
+	private void initEnvironment() {
+		Main.getEnvironment().setOptions(gp_environment, Main.DefaultSizeOfAxis, Main.DefaultNumOfPredator,
+				Main.DefaultNumOfPrey);
+	}
+
+	private void initGUI() {
 		tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 		tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
 		tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
 		tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
-		lc_population.setTitle("Population");
 
-		Main.getEnvironment().setOptions(gp_environment, Main.DefaultSizeOfAxis, Main.DefaultNumOfPredator,
-				Main.DefaultNumOfPrey);
+		lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
+		lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
+		lc_population.setTitle("Population (" + Main.getEnvironment().getNumOfRounds() + ")");
+	}
 
+	private void initHistory() {
 		int numOfPredator = CellType.PREDATOR.getNumOfCells();
 		int numOfPrey = CellType.PREY.getNumOfCells();
 
+		History.getInstance().clear(predatorSeries, preySeries);
+		History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
+	}
+
+	private void initChart() {
 		predatorSeries.setName("Predator");
 		preySeries.setName("Prey");
-
+		
 		if (!lc_population.getData().contains(predatorSeries)) {
 			lc_population.getData().add(predatorSeries);
 		}
@@ -61,13 +81,21 @@ public class MainScene {
 		if (!lc_population.getData().contains(preySeries)) {
 			lc_population.getData().add(preySeries);
 		}
+		
+		predatorSeries.nodeProperty().get().setStyle("-fx-stroke-width: 1px;");
+		preySeries.nodeProperty().get().setStyle("-fx-stroke-width: 1px;");
 
-		History.getInstance().clear(predatorSeries, preySeries);
-		History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
+		lc_population.setStyle(String.format("chart_color_1: %s; chart_color_2: %s;",
+				format(CellType.PREDATOR.getColor()), format(CellType.PREY.getColor())));
+		lc_population.setCreateSymbols(false);
+	}
 
-		lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
-		lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
-		lc_population.setTitle("Population (" + Main.getEnvironment().getNumOfRounds() + ")");
+	private String format(Color c) {
+		int r = (int) (255 * c.getRed());
+		int g = (int) (255 * c.getGreen());
+		int b = (int) (255 * c.getBlue());
+
+		return String.format("#%02x%02x%02x", r, g, b);
 	}
 
 	@FXML
@@ -112,6 +140,9 @@ public class MainScene {
 			} else {
 				initialize();
 				Main.getEnvironment().setOptions(gp_environment, sizeOfAxis, numOfPredator, numOfPrey);
+				History.getInstance().clear(predatorSeries, preySeries);
+				History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
+
 				tb_sizeOfAxis.setText(Integer.toString(sizeOfAxis));
 				tb_numOfPredator.setText(Integer.toString(numOfPredator));
 				tb_numOfPrey.setText(Integer.toString(numOfPrey));
