@@ -13,91 +13,121 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.view.MainScene">
 	<children>
-      <GridPane>
-        <columnConstraints>
-          <ColumnConstraints />
-          <ColumnConstraints hgrow="NEVER" />
-            <ColumnConstraints hgrow="NEVER" />
-            <ColumnConstraints hgrow="NEVER" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints />
-          <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-        </rowConstraints>
-         <children>
-            <GridPane hgap="5.0">
-              <columnConstraints>
-                <ColumnConstraints />
-                <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints prefWidth="10.0" />
-                  <ColumnConstraints />
-                  <ColumnConstraints prefWidth="20.0" />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-      				<Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="3" />
-      				<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="2" />
-                  <TextField fx:id="tb_numOfSteps" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
-                  <Label text="Steps: " />
-                  <Label text="Räuber:" GridPane.columnIndex="5" />
-                  <Label text="Beute:" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                  <Label fx:id="lbl_numOfPredator" text="0" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Label fx:id="lbl_numOfPrey" text="0" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-            <Label text="Weitere Einstellungen:" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <GridPane hgap="5.0" GridPane.rowIndex="2">
-              <columnConstraints>
-                <ColumnConstraints />
-                <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Größe:" />
-                  <TextField fx:id="tb_sizeOfAxis" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
-                  <Label text="Räuber:" GridPane.columnIndex="2" />
-                  <TextField fx:id="tb_numOfPredator" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" />
-                  <Label text="Beute:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="tb_numOfPrey" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetOptions" text="OK" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-            <LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="4">
-              <xAxis>
-                <NumberAxis animated="false" side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis animated="false" side="LEFT" />
-              </yAxis>
-            </LineChart>
-      		<GridPane fx:id="gp_environment" gridLinesVisible="true" GridPane.rowIndex="3" />
-            <ListView fx:id="lv_console" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowSpan="4" />
-         </children>
-      </GridPane>
+		<GridPane>
+			<columnConstraints>
+				<ColumnConstraints />
+				<ColumnConstraints hgrow="NEVER" />
+				<ColumnConstraints hgrow="NEVER" />
+				<ColumnConstraints hgrow="NEVER" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints />
+				<RowConstraints />
+				<RowConstraints />
+				<RowConstraints />
+			</rowConstraints>
+			<children>
+				<GridPane hgap="5.0">
+					<columnConstraints>
+						<ColumnConstraints />
+						<ColumnConstraints />
+						<ColumnConstraints />
+						<ColumnConstraints />
+						<ColumnConstraints prefWidth="10.0" />
+						<ColumnConstraints />
+						<ColumnConstraints prefWidth="20.0" />
+						<ColumnConstraints />
+						<ColumnConstraints />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Button cancelButton="true" minWidth="50.0"
+							mnemonicParsing="false" onAction="#onAction_btnReset"
+							text="Reset" GridPane.columnIndex="3" />
+						<Button minWidth="50.0" mnemonicParsing="false"
+							onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="2" />
+						<TextField fx:id="tb_numOfSteps" alignment="CENTER"
+							maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0"
+							GridPane.columnIndex="1" />
+						<Label text="Steps: " />
+						<Label text="Räuber:" GridPane.columnIndex="5" />
+						<Label text="Beute:" GridPane.columnIndex="5"
+							GridPane.rowIndex="1" />
+						<Label fx:id="lbl_numOfPredator" text="0"
+							GridPane.columnIndex="6" GridPane.halignment="CENTER"
+							GridPane.valignment="CENTER" />
+						<Label fx:id="lbl_numOfPrey" text="0"
+							GridPane.columnIndex="6" GridPane.halignment="CENTER"
+							GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+						<Button cancelButton="true" minWidth="50.0"
+							mnemonicParsing="false" onAction="#onAction_btnExport"
+							text="Export" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+					</children>
+				</GridPane>
+				<Label text="Weitere Einstellungen:" GridPane.rowIndex="1">
+					<font>
+						<Font name="System Bold" size="12.0" />
+					</font>
+				</Label>
+				<GridPane hgap="5.0" GridPane.rowIndex="2">
+					<columnConstraints>
+						<ColumnConstraints />
+						<ColumnConstraints />
+						<ColumnConstraints />
+						<ColumnConstraints />
+						<ColumnConstraints />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints maxHeight="-Infinity"
+							minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="-Infinity"
+							minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label text="Größe:" />
+						<TextField fx:id="tb_sizeOfAxis" alignment="CENTER"
+							maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0"
+							GridPane.columnIndex="1" />
+						<Label text="Räuber:" GridPane.columnIndex="2" />
+						<TextField fx:id="tb_numOfPredator" alignment="CENTER"
+							maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0"
+							GridPane.columnIndex="3" />
+						<Label text="Beute:" GridPane.columnIndex="2"
+							GridPane.rowIndex="1" />
+						<TextField fx:id="tb_numOfPrey" alignment="CENTER"
+							maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0"
+							GridPane.columnIndex="3" GridPane.rowIndex="1" />
+						<Button minWidth="50.0" mnemonicParsing="false"
+							onAction="#onAction_btnSetOptions" text="OK"
+							GridPane.columnIndex="4" GridPane.rowIndex="1" />
+					</children>
+				</GridPane>
+				<LineChart fx:id="lc_population" animated="false"
+					GridPane.columnIndex="1" GridPane.rowSpan="4">
+					<xAxis>
+						<NumberAxis animated="false" side="BOTTOM" />
+					</xAxis>
+					<yAxis>
+						<NumberAxis animated="false" side="LEFT" />
+					</yAxis>
+				</LineChart>
+				<GridPane fx:id="gp_environment" gridLinesVisible="true"
+					GridPane.rowIndex="3" />
+				<ListView fx:id="lv_console" prefWidth="400.0"
+					GridPane.columnIndex="2" GridPane.rowSpan="4" />
+			</children>
+		</GridPane>
 	</children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
+	<padding>
+		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+	</padding>
 </VBox>
