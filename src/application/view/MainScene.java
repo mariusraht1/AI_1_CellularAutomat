@@ -125,6 +125,10 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnSetOptions() {
+		setOptions();
+	}
+
+	public void setOptions() {
 		try {
 			int sizeOfAxis = Integer.parseInt(tb_sizeOfAxis.getText());
 			int maxNumOf = Main.getEnvironment().getMaxNumOfCells();
@@ -162,7 +166,7 @@ public class MainScene {
 		History.getInstance().showExport();
 	}
 
-	private static boolean canceledCellTypeConfig = false;
+	private static boolean canceledCellTypeConfig;
 
 	public static boolean isCanceledCellTypeConfig() {
 		return canceledCellTypeConfig;
@@ -174,34 +178,29 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnConfigPredator() {
-		openCellTypeConfigScene(CellType.PREDATOR);
-
-		if (!canceledCellTypeConfig) {
-			onAction_btnSetOptions();
-		}
+		canceledCellTypeConfig = true;
+		openCellTypeConfigScene(CellType.PREDATOR, this);
 	}
 
 	@FXML
 	private void onAction_btnConfigPrey() {
-		openCellTypeConfigScene(CellType.PREY);
-
-		if (!canceledCellTypeConfig) {
-			onAction_btnSetOptions();
-		}
+		canceledCellTypeConfig = true;
+		openCellTypeConfigScene(CellType.PREY, this);
 	}
 
-	private void openCellTypeConfigScene(CellType cellType) {
+	private void openCellTypeConfigScene(CellType cellType, MainScene mainScene) {
 		try {
 			final Stage dialog = new Stage();
 			dialog.initModality(Modality.APPLICATION_MODAL);
 			dialog.initOwner(Main.getPrimaryStage());
 			dialog.setTitle(cellType.getName());
 
+			CellTypeConfigScene.setMainScene(mainScene);
 			CellTypeConfigScene.setCellType(cellType);
-			
+
 			Scene scene = new Scene(
 					FXMLLoader.load(Main.class.getResource("/application/view/CellTypeConfigScene.fxml")));
-			dialog.setScene(scene);			
+			dialog.setScene(scene);
 			dialog.show();
 		} catch (Exception e) {
 			e.printStackTrace();

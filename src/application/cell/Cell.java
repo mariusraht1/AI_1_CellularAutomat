@@ -218,7 +218,7 @@ public class Cell {
 
 				// The less animals of the same type around the animal the more offsprings
 				for (int i = 0; i < Utilities.getInstance().getArrayLength(cells); i++) {
-					if (cells[i] != null) {
+					if (cells[i] != null || type.getMaxLitter() >= (i + 1)) {
 						switch (cells[i].getType()) {
 						case EMPTY:
 							cells[i].setNewState(Optional.of(type), Optional.empty(), Optional.of(hunger));
