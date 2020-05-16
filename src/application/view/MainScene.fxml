@@ -48,7 +48,7 @@
 					<children>
 						<Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="3" />
 						<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="2" />
-						<TextField fx:id="tb_numOfSteps" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
+						<TextField fx:id="tf_numOfSteps" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
 						<Label text="Steps: " />
 						<Label text="Räuber:" GridPane.columnIndex="5" />
 						<Label text="Beute:" GridPane.columnIndex="5" GridPane.rowIndex="1" />
@@ -77,11 +77,11 @@
 					</rowConstraints>
 					<children>
 						<Label text="Größe:" />
-						<TextField fx:id="tb_sizeOfAxis" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
+						<TextField fx:id="tf_sizeOfAxis" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
 						<Label text="Räuber:" GridPane.columnIndex="2" />
-						<TextField fx:id="tb_numOfPredator" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" />
+						<TextField fx:id="tf_numOfPredator" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" />
 						<Label text="Beute:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-						<TextField fx:id="tb_numOfPrey" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+						<TextField fx:id="tf_numOfPrey" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 						<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetOptions" text="OK" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Button mnemonicParsing="false" onAction="#onAction_btnConfigPredator" text="Config." GridPane.columnIndex="4" />
                   <Button mnemonicParsing="false" onAction="#onAction_btnConfigPrey" text="Config." GridPane.columnIndex="4" GridPane.rowIndex="1" />
