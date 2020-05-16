@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
 	<children>
 		<GridPane>
 			<columnConstraints>
@@ -72,19 +73,22 @@
                   <ColumnConstraints />
 					</columnConstraints>
 					<rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 						<RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 						<RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<Label text="Größe:" />
-						<TextField fx:id="tf_sizeOfAxis" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" />
-						<Label text="Räuber:" GridPane.columnIndex="2" />
-						<TextField fx:id="tf_numOfPredator" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" />
-						<Label text="Beute:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-						<TextField fx:id="tf_numOfPrey" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-						<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetOptions" text="OK" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#onAction_btnConfigPredator" text="Config." GridPane.columnIndex="4" />
-                  <Button mnemonicParsing="false" onAction="#onAction_btnConfigPrey" text="Config." GridPane.columnIndex="4" GridPane.rowIndex="1" />
+						<Label text="Größe:" GridPane.rowIndex="1" />
+						<TextField fx:id="tf_sizeOfAxis" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+						<Label text="Räuber:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+						<TextField fx:id="tf_numOfPredator" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+						<Label text="Beute:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+						<TextField fx:id="tf_numOfPrey" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+						<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetOptions" text="OK" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#onAction_btnConfigPredator" text="Config." GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#onAction_btnConfigPrey" text="Config." GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Label text="Umgebungsart:" GridPane.columnSpan="2" />
+                  <ComboBox fx:id="cb_environment" onAction="#onAction_cbSetEnvironment" prefWidth="210.0" GridPane.columnIndex="2" GridPane.columnSpan="4" />
 					</children>
 				</GridPane>
 				<LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="4">
