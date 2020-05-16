@@ -30,8 +30,8 @@
          <children>
             <Button mnemonicParsing="false" onAction="#onAction_btnSetConfig" text="OK" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
             <Button mnemonicParsing="false" onAction="#onAction_btnCancel" text="Abbrechen" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
-            <TextField fx:id="tb_maxAge" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" />
-            <TextField fx:id="tb_maxHunger" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tf_maxAge" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" />
+            <TextField fx:id="tf_maxHunger" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets bottom="-3.0" />
@@ -39,12 +39,12 @@
             </Separator>
             <Label text="Max. Alter:" />
             <Label text="Max. Hunger:" GridPane.rowIndex="1" />
-            <TextField fx:id="tb_minLitterAge" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="tf_minLitterAge" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Min. Geschlechtsreife:" GridPane.rowIndex="2" />
             <Label text="Max. Geschlechtsreife:" GridPane.rowIndex="3" />
-            <TextField fx:id="tb_maxLitterAge" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+            <TextField fx:id="tf_maxLitterAge" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
             <Label text="Max. Wurfgröße:" GridPane.rowIndex="4" />
-            <TextField fx:id="tb_maxLitter" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+            <TextField fx:id="tf_maxLitter" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="45.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
             <Button mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>

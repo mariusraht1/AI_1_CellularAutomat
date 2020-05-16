@@ -19,17 +19,17 @@ import javafx.stage.Stage;
 
 public class MainScene {
 	@FXML
-	private TextField tb_numOfSteps;
+	private TextField tf_numOfSteps;
 	@FXML
 	private Label lbl_numOfPredator;
 	@FXML
 	private Label lbl_numOfPrey;
 	@FXML
-	private TextField tb_numOfPredator;
+	private TextField tf_numOfPredator;
 	@FXML
-	private TextField tb_numOfPrey;
+	private TextField tf_numOfPrey;
 	@FXML
-	private TextField tb_sizeOfAxis;
+	private TextField tf_sizeOfAxis;
 	@FXML
 	private LineChart<Integer, Integer> lc_population;
 	@FXML
@@ -56,10 +56,10 @@ public class MainScene {
 	}
 
 	private void initGUI() {
-		tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
-		tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
-		tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
-		tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
+		tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
+		tf_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
+		tf_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
+		tf_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
 
 		lbl_numOfPredator.setText(String.valueOf(CellType.PREDATOR.getNumOfCells()));
 		lbl_numOfPrey.setText(String.valueOf(CellType.PREY.getNumOfCells()));
@@ -110,10 +110,10 @@ public class MainScene {
 	@FXML
 	private void onAction_btnPlay() {
 		try {
-			int numOfSteps = Integer.parseInt(tb_numOfSteps.getText());
+			int numOfSteps = Integer.parseInt(tf_numOfSteps.getText());
 
 			if (numOfSteps > Main.MaxNumOfSteps || numOfSteps <= 0) {
-				tb_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
+				tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
 			} else {
 				Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population, predatorSeries,
 						preySeries);
@@ -130,30 +130,30 @@ public class MainScene {
 
 	public void setOptions() {
 		try {
-			int sizeOfAxis = Integer.parseInt(tb_sizeOfAxis.getText());
+			int sizeOfAxis = Integer.parseInt(tf_sizeOfAxis.getText());
 			int maxNumOf = Main.getEnvironment().getMaxNumOfCells();
-			int numOfPredator = Integer.parseInt(tb_numOfPredator.getText());
-			int numOfPrey = Integer.parseInt(tb_numOfPrey.getText());
+			int numOfPredator = Integer.parseInt(tf_numOfPredator.getText());
+			int numOfPrey = Integer.parseInt(tf_numOfPrey.getText());
 			int sum = numOfPredator + numOfPrey;
 
 			if (sum > maxNumOf || sum <= 0) {
-				tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
-				tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
+				tf_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
+				tf_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
 			} else if (numOfPredator > maxNumOf) {
-				tb_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
+				tf_numOfPredator.setText(String.valueOf(Main.DefaultNumOfPredator));
 			} else if (numOfPrey > maxNumOf) {
-				tb_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
+				tf_numOfPrey.setText(String.valueOf(Main.DefaultNumOfPrey));
 			} else if (sizeOfAxis > Main.MaxSuggestedSizeOfAxis || sizeOfAxis <= 0) {
-				tb_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
+				tf_sizeOfAxis.setText(String.valueOf(Main.DefaultSizeOfAxis));
 			} else {
 				initialize();
 				Main.getEnvironment().setOptions(gp_environment, sizeOfAxis, numOfPredator, numOfPrey);
 				History.getInstance().clear(predatorSeries, preySeries);
 				History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
 
-				tb_sizeOfAxis.setText(Integer.toString(sizeOfAxis));
-				tb_numOfPredator.setText(Integer.toString(numOfPredator));
-				tb_numOfPrey.setText(Integer.toString(numOfPrey));
+				tf_sizeOfAxis.setText(Integer.toString(sizeOfAxis));
+				tf_numOfPredator.setText(Integer.toString(numOfPredator));
+				tf_numOfPrey.setText(Integer.toString(numOfPrey));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

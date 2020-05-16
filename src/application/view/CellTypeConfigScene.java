@@ -7,15 +7,15 @@ import javafx.stage.Stage;
 
 public class CellTypeConfigScene {
 	@FXML
-	private TextField tb_maxAge;
+	private TextField tf_maxAge;
 	@FXML
-	private TextField tb_maxHunger;
+	private TextField tf_maxHunger;
 	@FXML
-	private TextField tb_minLitterAge;
+	private TextField tf_minLitterAge;
 	@FXML
-	private TextField tb_maxLitterAge;
+	private TextField tf_maxLitterAge;
 	@FXML
-	private TextField tb_maxLitter;
+	private TextField tf_maxLitter;
 
 	private static MainScene mainScene;
 	
@@ -31,30 +31,30 @@ public class CellTypeConfigScene {
 
 	@FXML
 	private void initialize() {
-		tb_maxAge.setText(Integer.toString(cellType.getMaxAge()));
-		tb_maxHunger.setText(Integer.toString(cellType.getMaxHunger()));
-		tb_minLitterAge.setText(Integer.toString(cellType.getMinLitterAge()));
-		tb_maxLitterAge.setText(Integer.toString(cellType.getMaxLitterAge()));
-		tb_maxLitter.setText(Integer.toString(cellType.getMaxLitter()));
+		tf_maxAge.setText(Integer.toString(cellType.getMaxAge()));
+		tf_maxHunger.setText(Integer.toString(cellType.getMaxHunger()));
+		tf_minLitterAge.setText(Integer.toString(cellType.getMinLitterAge()));
+		tf_maxLitterAge.setText(Integer.toString(cellType.getMaxLitterAge()));
+		tf_maxLitter.setText(Integer.toString(cellType.getMaxLitter()));
 	}
 
 	@FXML
 	private void onAction_btnSetConfig() {
-		int maxAge = Integer.parseInt(tb_maxAge.getText());
-		int maxHunger = Integer.parseInt(tb_maxHunger.getText());
-		int minLitterAge = Integer.parseInt(tb_minLitterAge.getText());
-		int maxLitterAge = Integer.parseInt(tb_maxLitterAge.getText());
-		int maxLitter = Integer.parseInt(tb_maxLitter.getText());
+		int maxAge = Integer.parseInt(tf_maxAge.getText());
+		int maxHunger = Integer.parseInt(tf_maxHunger.getText());
+		int minLitterAge = Integer.parseInt(tf_minLitterAge.getText());
+		int maxLitterAge = Integer.parseInt(tf_maxLitterAge.getText());
+		int maxLitter = Integer.parseInt(tf_maxLitter.getText());
 
 		if (maxAge <= 0) {
-			tb_maxAge.setText(Integer.toString(cellType.getMaxAge()));
+			tf_maxAge.setText(Integer.toString(cellType.getMaxAge()));
 		} else if (maxHunger <= 0) {
-			tb_maxHunger.setText(Integer.toString(cellType.getMaxHunger()));
+			tf_maxHunger.setText(Integer.toString(cellType.getMaxHunger()));
 		} else if (minLitterAge <= 0 || maxLitterAge <= 0 || minLitterAge > maxLitterAge) {
-			tb_minLitterAge.setText(Integer.toString(cellType.getMinLitterAge()));
-			tb_maxLitterAge.setText(Integer.toString(cellType.getMaxLitterAge()));
+			tf_minLitterAge.setText(Integer.toString(cellType.getMinLitterAge()));
+			tf_maxLitterAge.setText(Integer.toString(cellType.getMaxLitterAge()));
 		} else if (maxLitter <= 0) {
-			tb_maxLitter.setText(Integer.toString(cellType.getMaxLitter()));
+			tf_maxLitter.setText(Integer.toString(cellType.getMaxLitter()));
 		} else {
 			cellType.setMaxAge(maxAge);
 			cellType.setMaxHunger(maxHunger);
@@ -63,7 +63,7 @@ public class CellTypeConfigScene {
 			cellType.setMaxLitter(maxLitter);
 
 			MainScene.setCanceledCellTypeConfig(false);
-			Stage dialog = (Stage) tb_maxAge.getScene().getWindow();
+			Stage dialog = (Stage) tf_maxAge.getScene().getWindow();
 			dialog.close();
 			
 			mainScene.setOptions();
@@ -74,7 +74,7 @@ public class CellTypeConfigScene {
 	private void onAction_btnCancel() {
 		MainScene.setCanceledCellTypeConfig(true);
 
-		Stage dialog = (Stage) tb_maxAge.getScene().getWindow();
+		Stage dialog = (Stage) tf_maxAge.getScene().getWindow();
 		dialog.close();
 	}
 
