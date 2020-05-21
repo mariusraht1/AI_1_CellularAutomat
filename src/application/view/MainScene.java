@@ -158,6 +158,7 @@ public class MainScene {
 				History.getInstance().clear(predatorSeries, preySeries);
 				History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
 
+				// Update after initialize
 				tf_sizeOfAxis.setText(Integer.toString(sizeOfAxis));
 				tf_numOfPredator.setText(Integer.toString(numOfPredator));
 				tf_numOfPrey.setText(Integer.toString(numOfPrey));
