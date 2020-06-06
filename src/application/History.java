@@ -54,7 +54,7 @@ public class History {
 				for (int i = 0; i < x.length; i++) {
 					stringBuilder.append(x[i]);
 					if (i < x.length - 1) {
-						stringBuilder.append(",");
+						stringBuilder.append(";");
 					}
 				}
 				stringBuilder.append("\n");
