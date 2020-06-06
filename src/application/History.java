@@ -24,7 +24,7 @@ public class History {
 
 	private List<int[]> population = new ArrayList<int[]>();
 
-	private File file = new File("history.txt");
+	private File file = new File("history.csv");
 
 	public File getFile() {
 		return file;
