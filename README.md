@@ -15,3 +15,6 @@ The mod folder should contain the jar files from the lib directory if the JavaFX
 The project structure should be looking like this:
 
 ![alt text](/doc/project_structure.png?raw=true)
+
+3. Export a runnable jar file from Eclipse
+4. Launch the app on e.g. windows via cmd with "java -jar <appname>.jar"
