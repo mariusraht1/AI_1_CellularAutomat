@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +25,19 @@ public class History {
 
 	private List<int[]> population = new ArrayList<int[]>();
 
-	private File file = new File("history.csv");
+	private File file = new File("history.txt");
 
 	public File getFile() {
 		return file;
 	}
 
 	private History() {
+		try {
+			file = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			file = new File(file.getParentFile().getPath() + "//history.txt");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	};
 
 	public void clear(Series<Integer, Integer> predatorSeries, Series<Integer, Integer> preySeries) {
