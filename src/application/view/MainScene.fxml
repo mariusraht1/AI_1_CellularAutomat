@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
 	<children>
-		<GridPane>
+		<GridPane hgap="5.0" vgap="5.0">
 			<columnConstraints>
 				<ColumnConstraints />
 				<ColumnConstraints hgrow="NEVER" />
@@ -28,9 +28,10 @@
 				<RowConstraints />
 				<RowConstraints />
 				<RowConstraints />
+            <RowConstraints />
 			</rowConstraints>
 			<children>
-				<GridPane hgap="5.0">
+				<GridPane hgap="5.0" vgap="5.0" GridPane.rowIndex="3">
 					<columnConstraints>
 						<ColumnConstraints />
 						<ColumnConstraints />
@@ -58,12 +59,12 @@
 						<Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 					</children>
 				</GridPane>
-				<Label text="Weitere Einstellungen:" GridPane.rowIndex="1">
+				<Label text="Weitere Einstellungen:">
 					<font>
 						<Font name="System Bold" size="12.0" />
 					</font>
 				</Label>
-				<GridPane hgap="5.0" GridPane.rowIndex="2">
+				<GridPane hgap="5.0" vgap="5.0" GridPane.rowIndex="1">
 					<columnConstraints>
 						<ColumnConstraints />
 						<ColumnConstraints />
@@ -91,7 +92,7 @@
                   <ComboBox fx:id="cb_environment" onAction="#onAction_cbSetEnvironment" prefWidth="210.0" GridPane.columnIndex="2" GridPane.columnSpan="4" />
 					</children>
 				</GridPane>
-				<LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="4">
+				<LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="5">
 					<xAxis>
 						<NumberAxis animated="false" side="BOTTOM" />
 					</xAxis>
@@ -99,8 +100,13 @@
 						<NumberAxis animated="false" side="LEFT" />
 					</yAxis>
 				</LineChart>
-				<GridPane fx:id="gp_environment" gridLinesVisible="true" GridPane.rowIndex="3" />
-				<ListView fx:id="lv_console" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowSpan="4" />
+				<GridPane fx:id="gp_environment" gridLinesVisible="true" GridPane.rowIndex="4" />
+				<ListView fx:id="lv_console" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowSpan="5" />
+            <Label text="Ablaufsteuerung:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
 			</children>
 		</GridPane>
 	</children>
