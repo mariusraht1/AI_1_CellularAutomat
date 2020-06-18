@@ -119,8 +119,10 @@ public class MainScene {
 		try {
 			int numOfSteps = Integer.parseInt(tf_numOfSteps.getText());
 
-			if (numOfSteps > Main.MaxNumOfSteps || numOfSteps <= 0) {
+			if (numOfSteps <= 0) {
 				tf_numOfSteps.setText(String.valueOf(Main.DefaultNumOfSteps));
+			} else if (numOfSteps > Main.MaxNumOfSteps) {
+				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
 				Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population, predatorSeries,
 						preySeries);
