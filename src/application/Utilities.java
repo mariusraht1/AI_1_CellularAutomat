@@ -1,5 +1,7 @@
 package application;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Random;
 
@@ -77,5 +79,15 @@ public class Utilities {
 		} else {
 			return dividend / divisor;
 		}
+	}
+	
+	public double formatDouble(String format, double number) {
+		DecimalFormat decimalFormat = new DecimalFormat(format);
+		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+		decimalFormatSymbols.setDecimalSeparator('.');
+		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+		number = Double.valueOf(decimalFormat.format(number));
+		
+		return number;
 	}
 }
