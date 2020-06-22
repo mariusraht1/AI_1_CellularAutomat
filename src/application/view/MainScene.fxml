@@ -27,11 +27,10 @@
     <RowConstraints />
       <RowConstraints />
       <RowConstraints />
-      <RowConstraints vgrow="SOMETIMES" />
-      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints />
   </rowConstraints>
    <children>
-      <ListView fx:id="lv_console" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowSpan="7" />
+      <ListView fx:id="lv_console" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowSpan="6" />
       <Label text="Initiale Startwerte:" GridPane.columnSpan="2">
          <font>
             <Font name="System Bold" size="12.0" />
@@ -74,7 +73,7 @@
             <CheckBox fx:id="chk_animate" mnemonicParsing="false" text="Ausführung animieren" GridPane.columnSpan="3" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="7">
+      <LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="6">
          <xAxis>
             <NumberAxis animated="false" side="BOTTOM" />
          </xAxis>
@@ -114,7 +113,7 @@
             <Button mnemonicParsing="false" onAction="#onAction_btnConfigPrey" text="Config." GridPane.columnIndex="4" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <GridPane fx:id="gp_environment" gridLinesVisible="true" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+      <GridPane fx:id="gp_environment" gridLinesVisible="true" GridPane.rowIndex="5" />
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
