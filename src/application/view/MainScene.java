@@ -5,7 +5,6 @@ import application.Log;
 import application.Main;
 import application.cell.CellType;
 import application.environment.Environment;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
