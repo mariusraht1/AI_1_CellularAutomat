@@ -5,11 +5,13 @@ import application.Log;
 import application.Main;
 import application.cell.CellType;
 import application.environment.Environment;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -35,6 +37,8 @@ public class MainScene {
 	@FXML
 	private ComboBox<Environment> cb_environment;
 	@FXML
+	private CheckBox chk_animate;
+	@FXML
 	private LineChart<Integer, Integer> lc_population;
 	@FXML
 	private ListView<String> lv_console;
@@ -46,6 +50,7 @@ public class MainScene {
 
 	@FXML
 	private void initialize() {
+		Main.getEnvironment().cancelPlayTask();
 		Log.getInstance().setOutputControl(lv_console);
 
 		initEnvironment();
@@ -110,7 +115,7 @@ public class MainScene {
 	}
 
 	@FXML
-	private void onAction_btnReset() {
+	private void onAction_btnReset() {		
 		initialize();
 	}
 
@@ -124,8 +129,8 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
-				Main.getEnvironment().play(numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population, predatorSeries,
-						preySeries);
+				Main.getEnvironment().runPlay(chk_animate.isSelected(), numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population,
+						predatorSeries, preySeries);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

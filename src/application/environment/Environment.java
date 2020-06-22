@@ -7,6 +7,8 @@ import application.Utilities;
 import application.cell.Cell;
 import application.cell.CellList;
 import application.cell.CellType;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart.Series;
@@ -45,6 +47,16 @@ public abstract class Environment implements EnvironmentInterface {
 
 	public void setNumOfRounds(int numOfRounds) {
 		this.numOfRounds = numOfRounds;
+	}
+
+	private Task<Void> playTask;
+	
+	public Task<Void> getPlayTask() {
+		return playTask;
+	}
+
+	public void setPlayTask(Task<Void> playTask) {
+		this.playTask = playTask;
 	}
 
 	protected Environment() {
@@ -113,48 +125,113 @@ public abstract class Environment implements EnvironmentInterface {
 	}
 
 	public int getMaxNumOfCells() {
-		return width * height;
+		return this.width * this.height;
 	}
 
-	public void play(int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey,
+	public void runPlay(boolean animate, int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey,
 			LineChart<Integer, Integer> lc_population, Series<Integer, Integer> predatorSeries,
 			Series<Integer, Integer> preySeries) throws Exception {
-		for (int n = 1; n <= numOfSteps; n++) {
-			this.numOfRounds++;
 
+		if (animate) {
+			this.playTask = new Task<Void>() {
+				@Override
+				public Void call() throws Exception {
+					int step = 1;
+					boolean play = true;
+
+					while (play) {
+						if (this.isCancelled()) {
+							break;
+						} else {
+							play = play(true, step, numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population,
+									predatorSeries, preySeries);
+							step++;
+						}
+					}
+					return null;
+				}
+			};
+			Thread thread = new Thread(this.playTask);
+			thread.setDaemon(true);
+			thread.start();
+		} else {
+			int step = 1;
+			boolean play = true;
+
+			while (play) {
+				play = play(false, step, numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population, predatorSeries,
+						preySeries);
+				step++;
+			}
+		}
+	}
+
+	private boolean play(boolean animate, int step, int numOfSteps, Label lbl_numOfPredator, Label lbl_numOfPrey,
+			LineChart<Integer, Integer> lc_population, Series<Integer, Integer> predatorSeries,
+			Series<Integer, Integer> preySeries) throws Exception {
+		int maxNumOfCells = Main.getEnvironment().getMaxNumOfCells();
+		int numOfPredator = CellType.PREDATOR.getNumOfCells();
+		int numOfPrey = CellType.PREY.getNumOfCells();
+		int sum = numOfPredator + numOfPrey;
+
+		if (step <= numOfSteps && sum != maxNumOfCells && sum != 0) {
+
+			Main.getEnvironment().setNumOfRounds(Main.getEnvironment().getNumOfRounds() + 1);
 			String numOfRounds = "000";
 
-			if (this.numOfRounds < 10) {
-				numOfRounds = "00" + this.numOfRounds;
-			} else if (this.numOfRounds < 100) {
-				numOfRounds = "0" + this.numOfRounds;
+			if (Main.getEnvironment().getNumOfRounds() < 10) {
+				numOfRounds = "00" + Main.getEnvironment().getNumOfRounds();
+			} else if (Main.getEnvironment().getNumOfRounds() < 100) {
+				numOfRounds = "0" + Main.getEnvironment().getNumOfRounds();
 			} else {
-				numOfRounds = Integer.toString(this.numOfRounds);
+				numOfRounds = Integer.toString(Main.getEnvironment().getNumOfRounds());
 			}
 
 			Log.getInstance().add("*****************************************");
 			Log.getInstance().add("***** Round " + numOfRounds + " ***********************");
 			Log.getInstance().add("*****************************************");
 
-			lc_population.setTitle("Population (" + this.numOfRounds + ")");
+			if (animate) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						step();
+						updateCells();
 
-			step();
-			updateCells();
+						int numOfPredator = CellType.PREDATOR.getNumOfCells();
+						int numOfPrey = CellType.PREY.getNumOfCells();
 
-			int maxNumOfCells = Main.getEnvironment().getMaxNumOfCells();
-			int numOfPredator = CellType.PREDATOR.getNumOfCells();
-			int numOfPrey = CellType.PREY.getNumOfCells();
-			int sum = numOfPredator + numOfPrey;
+						updateUI(numOfPrey, numOfPredator, lbl_numOfPredator, lbl_numOfPrey, lc_population,
+								predatorSeries, preySeries);
+					}
 
-			History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
+				});
+				Thread.sleep(200);
+			} else {
+				step();
+				updateCells();
 
-			lbl_numOfPredator.setText(String.valueOf(numOfPredator));
-			lbl_numOfPrey.setText(String.valueOf(numOfPrey));
-
-			if (sum == maxNumOfCells) {
-				break; // Attractor
+				updateUI(numOfPrey, numOfPredator, lbl_numOfPredator, lbl_numOfPrey, lc_population, predatorSeries,
+						preySeries);
 			}
+
+			step++;
+			return true;
+		} else if (sum == maxNumOfCells || sum == 0) {
+			Log.getInstance().add("Modellausführung beendet: Attraktor wurde gefunden.");
+			return false;
+		} else {
+			return false;
 		}
+	}
+
+	private void updateUI(int numOfPrey, int numOfPredator, Label lbl_numOfPredator, Label lbl_numOfPrey,
+			LineChart<Integer, Integer> lc_population, Series<Integer, Integer> predatorSeries,
+			Series<Integer, Integer> preySeries) {
+		lc_population.setTitle("Population (" + this.numOfRounds + ")");
+		lbl_numOfPredator.setText(String.valueOf(numOfPredator));
+		lbl_numOfPrey.setText(String.valueOf(numOfPrey));
+		History.getInstance().add(numOfPredator, numOfPrey, predatorSeries, preySeries);
 	}
 
 	public void step() {
@@ -224,6 +301,12 @@ public abstract class Environment implements EnvironmentInterface {
 					Tooltip.install(cell.getShape(), tooltip);
 				}
 			}
+		}
+	}
+	
+	public void cancelPlayTask() {		
+		if(this.playTask != null && this.playTask.isRunning()) {
+			this.playTask.cancel();
 		}
 	}
 }
