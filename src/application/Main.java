@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * @version 22.06.2020-001
  */
 public class Main extends Application {
-	private static ObservableList<Environment> supportedEnvironments = FXCollections
+	private final static ObservableList<Environment> supportedEnvironments = FXCollections
 			.observableArrayList(Environment_Moore.getInstance(), Environment_VonNeumann.getInstance());
 
 	public static ObservableList<Environment> getSupportedEnvironments() {
