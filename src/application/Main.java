@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  * Cellular Automat for Predator-Prey Model
  * 
  * @author Marius Raht
- * @version 17.07.2020-001
+ * @version 31.07.2020-001
  */
 public class Main extends Application {
 	private final static ObservableList<Environment> supportedEnvironments = FXCollections
