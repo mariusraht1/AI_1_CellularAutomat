@@ -4,8 +4,9 @@ import java.util.Optional;
 
 import application.Log;
 import application.Main;
-import application.Utilities;
 import javafx.scene.shape.Shape;
+import library.GeneralUtilities;
+import library.MathManager;
 
 public class Cell {
 	private CellType type;
@@ -155,8 +156,8 @@ public class Cell {
 	public boolean goTo(CellType cellType) {
 		Cell[] cells = neighbourList.getCells(cellType);
 
-		if (!Utilities.getInstance().isEmpty(cells)) {
-			int x = Utilities.getInstance().generateRandom(0, Utilities.getInstance().getArrayLength(cells) - 1);
+		if (!GeneralUtilities.getInstance().isEmpty(cells)) {
+			int x = MathManager.getInstance().getRandom(0, GeneralUtilities.getInstance().getArrayLength(cells) - 1);
 
 			Log.getInstance().add("Go to: x = " + cells[x].x + "; y = " + cells[x].y);
 
@@ -172,13 +173,13 @@ public class Cell {
 		if (hunger > 0) {
 			Cell[] cells = neighbourList.getCells(cellType);
 
-			if (!Utilities.getInstance().isEmpty(cells)) {
+			if (!GeneralUtilities.getInstance().isEmpty(cells)) {
 				int min = hunger;
 				int max = type.getMaxHunger();
 
-				if (min > 0 && max > 0 && min <= max && Utilities.getInstance().generateRandom(min, max) == min) {
-					int x = Utilities.getInstance().generateRandom(0,
-							Utilities.getInstance().getArrayLength(cells) - 1);
+				if (min > 0 && max > 0 && min <= max && MathManager.getInstance().getRandom(min, max) == min) {
+					int x = MathManager.getInstance().getRandom(0,
+							GeneralUtilities.getInstance().getArrayLength(cells) - 1);
 
 					Log.getInstance().add("Eat: x = " + cells[x].getX() + "; y = " + cells[x].getY() + "; Min = " + min
 							+ "; Max = " + max);
@@ -199,10 +200,10 @@ public class Cell {
 
 			if (type.equals(CellType.PREDATOR)) {
 				Cell[] preyCells = neighbourList.getCells(CellType.PREY);
-				if (!Utilities.getInstance().isEmpty(preyCells)) {
+				if (!GeneralUtilities.getInstance().isEmpty(preyCells)) {
 					Cell[] emptyCells = cells;
-					int numOfEmptyCells = Utilities.getInstance().getArrayLength(emptyCells);
-					int numOfPreyCells = Utilities.getInstance().getArrayLength(preyCells);
+					int numOfEmptyCells = GeneralUtilities.getInstance().getArrayLength(emptyCells);
+					int numOfPreyCells = GeneralUtilities.getInstance().getArrayLength(preyCells);
 
 					// Empty cells are being favored
 					cells = new Cell[numOfEmptyCells + numOfPreyCells];
@@ -212,12 +213,12 @@ public class Cell {
 				}
 			}
 
-			if (!Utilities.getInstance().isEmpty(cells)) {
+			if (!GeneralUtilities.getInstance().isEmpty(cells)) {
 
 				Log.getInstance().add("Reproduce: Age = " + age + "; Hunger = " + hunger);
 
 				// The less animals of the same type around the animal the more offsprings
-				for (int i = 0; i < Utilities.getInstance().getArrayLength(cells); i++) {
+				for (int i = 0; i < GeneralUtilities.getInstance().getArrayLength(cells); i++) {
 					if (cells[i] != null || type.getMaxLitter() >= (i + 1)) {
 						switch (cells[i].getType()) {
 						case EMPTY:

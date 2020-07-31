@@ -3,7 +3,6 @@ package application.environment;
 import application.History;
 import application.Log;
 import application.Main;
-import application.Utilities;
 import application.cell.Cell;
 import application.cell.CellList;
 import application.cell.CellType;
@@ -17,6 +16,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import library.MathManager;
 
 public abstract class Environment implements EnvironmentInterface {
 	private int width = 50;
@@ -50,7 +50,7 @@ public abstract class Environment implements EnvironmentInterface {
 	}
 
 	private Task<Void> playTask;
-	
+
 	public Task<Void> getPlayTask() {
 		return playTask;
 	}
@@ -68,8 +68,8 @@ public abstract class Environment implements EnvironmentInterface {
 			boolean wasGenerated = false;
 
 			while (!wasGenerated) {
-				int x = Utilities.getInstance().generateRandom(0, Main.getEnvironment().getWidth() - 1);
-				int y = Utilities.getInstance().generateRandom(0, Main.getEnvironment().getHeight() - 1);
+				int x = MathManager.getInstance().getRandom(0, Main.getEnvironment().getWidth() - 1);
+				int y = MathManager.getInstance().getRandom(0, Main.getEnvironment().getHeight() - 1);
 				Cell cell = CellList.getInstance().getCells()[x][y];
 
 				if (cell.getType().equals(CellType.EMPTY)) {
@@ -303,9 +303,9 @@ public abstract class Environment implements EnvironmentInterface {
 			}
 		}
 	}
-	
-	public void cancelPlayTask() {		
-		if(this.playTask != null && this.playTask.isRunning()) {
+
+	public void cancelPlayTask() {
+		if (this.playTask != null && this.playTask.isRunning()) {
 			this.playTask.cancel();
 		}
 	}

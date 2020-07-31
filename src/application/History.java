@@ -8,9 +8,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.Utilities.OSType;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
+import library.GeneralUtilities;
+import library.GeneralUtilities.OSType;
 
 public class History {
 	private static History instance;
@@ -78,7 +79,7 @@ public class History {
 
 	public void showExport() {
 		try {
-			if (Utilities.getInstance().getOperatingSystemType().equals(OSType.Windows)) {
+			if (GeneralUtilities.getInstance().getOperatingSystemType().equals(OSType.Windows)) {
 				Runtime.getRuntime().exec("explorer.exe /select, " + file);
 			} else {
 				Desktop.getDesktop().open(History.getInstance().getFile());

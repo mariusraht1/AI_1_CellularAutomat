@@ -114,7 +114,7 @@ public class MainScene {
 	}
 
 	@FXML
-	private void onAction_btnReset() {		
+	private void onAction_btnReset() {
 		initialize();
 	}
 
@@ -128,8 +128,8 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
-				Main.getEnvironment().runPlay(chk_animate.isSelected(), numOfSteps, lbl_numOfPredator, lbl_numOfPrey, lc_population,
-						predatorSeries, preySeries);
+				Main.getEnvironment().runPlay(chk_animate.isSelected(), numOfSteps, lbl_numOfPredator, lbl_numOfPrey,
+						lc_population, predatorSeries, preySeries);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
