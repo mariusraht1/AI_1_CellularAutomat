@@ -14,6 +14,16 @@ public class Log {
 
 		return instance;
 	}
+	
+	private boolean disable = false;
+
+	public boolean isDisable() {
+		return disable;
+	}
+
+	public void setDisable(boolean disable) {
+		this.disable = disable;
+	}
 
 	private Log() {
 	}
@@ -27,7 +37,17 @@ public class Log {
 		clear();
 	}
 
+	public void addCritical(String message) {
+		addMessage(message);
+	}
+
 	public void add(String message) {
+		if (!disable) {
+			addMessage(message);
+		}
+	}
+
+	private void addMessage(String message) {
 		System.out.println(message);
 
 		if (control != null) {
@@ -43,10 +63,7 @@ public class Log {
 		} else {
 			buffer.add(message);
 		}
-
-		control.scrollTo(control.getItems().size());
 	}
-
 	public void clear() {
 		buffer.clear();
 		control.getItems().clear();
