@@ -52,7 +52,8 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints />
+            <RowConstraints />
         </rowConstraints>
          <children>
             <Label text="Steps: " />
@@ -71,6 +72,7 @@
             <Label fx:id="lbl_numOfPredator" text="0" GridPane.columnIndex="5" />
             <Label fx:id="lbl_numOfPrey" text="0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <CheckBox fx:id="chk_animate" mnemonicParsing="false" text="Ausführung animieren" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+            <CheckBox fx:id="chk_disableLogging" mnemonicParsing="false" text="Logging ausschalten" GridPane.columnSpan="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <LineChart fx:id="lc_population" animated="false" GridPane.columnIndex="1" GridPane.rowSpan="6">

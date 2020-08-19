@@ -38,6 +38,8 @@ public class MainScene {
 	@FXML
 	private CheckBox chk_animate;
 	@FXML
+	private CheckBox chk_disableLogging;
+	@FXML
 	private LineChart<Integer, Integer> lc_population;
 	@FXML
 	private ListView<String> lv_console;
@@ -128,6 +130,9 @@ public class MainScene {
 			} else if (numOfSteps > Main.MaxNumOfSteps) {
 				tf_numOfSteps.setText(String.valueOf(Main.MaxNumOfSteps));
 			} else {
+				boolean disableLogging = chk_disableLogging.isSelected();
+				Log.getInstance().setDisable(disableLogging);
+				
 				Main.getEnvironment().runPlay(chk_animate.isSelected(), numOfSteps, lbl_numOfPredator, lbl_numOfPrey,
 						lc_population, predatorSeries, preySeries);
 			}
